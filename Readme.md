@@ -5,7 +5,7 @@ This package provides example MATLAB code and data for finite element model upda
    (c) Yang Wang, Xinjun Dong, Dan Li (all rights reserved)\
        School of Civil and Environmental Engineering\
        Georgia Institute of Technology\
-       2018
+       2018\
        http://wang.ce.gatech.edu/
 
 ## Introduction
