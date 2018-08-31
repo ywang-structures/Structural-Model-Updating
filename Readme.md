@@ -6,6 +6,7 @@ This package provides example MATLAB code and data for finite element model upda
        School of Civil and Environmental Engineering\
        Georgia Institute of Technology\
        2018
+       http://wang.ce.gatech.edu/
 
 ## Introduction
 
