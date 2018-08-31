@@ -1,6 +1,6 @@
-# Software and Data for Structural Model Updating
+# Structural Model Updating
 
-This GitHub package provides example MATLAB code for finite element model updating of structures. The code offers selection of different updating formulations and optimization algorithms. 
+This package provides example MATLAB code and data for finite element model updating of structures. The code offers selection of different updating formulations and optimization algorithms. 
 
    (c) Yang Wang, Xinjun Dong, Dan Li (all rights reserved)\
        School of Civil and Environmental Engineering\
