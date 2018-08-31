@@ -2,10 +2,10 @@
 
 This GitHub package provides example MATLAB code for finite element model updating of structures. The code offers selection of different updating formulations and optimization algorithms. 
 
-   (c) Yang Wang, Xinjun Dong, Dan Li (all rights reserved)
-       School of Civil and Environmental Engineering
-       Georgia Institute of Technology
-       2018
+   (c) Yang Wang, Xinjun Dong, Dan Li (all rights reserved)\
+   School of Civil and Environmental Engineering\
+   Georgia Institute of Technology\
+   2018
 
 ## Introduction
 
