@@ -1,7 +1,7 @@
 function [r] =  ObjFuncMPDLsqnonlin(expModes, simModes, eigFreqOpt, normOpt, objOpt)
 % function [r] =  ObjFuncMPDLsqnonlin(expModes, simModes, eigFreqOpt, normOpt, objOpt)
 %
-%   (c) Yang Wang, Xinjun Dong, Dan Li (all rights reserved)
+%       Yang Wang, Xinjun Dong, Dan Li
 %       School of Civil and Environmental Engineering
 %       Georgia Institute of Technology
 %       2018

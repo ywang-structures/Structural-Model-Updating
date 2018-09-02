@@ -2,10 +2,10 @@ function macs = MAC(vec, vecs)
 
 % function mc = MAC(vec, vects)
 %
-%   (c) Yang Wang, Xinjun Dong, Dan Li (all rights reserved)
-%       School of Civil and Environmental Engineering
-%       Georgia Institute of Technology
-%       2018
+%   Yang Wang, Xinjun Dong, Dan Li
+%   School of Civil and Environmental Engineering
+%   Georgia Institute of Technology
+%   2018
 %
 % Revision: 1.0
 %

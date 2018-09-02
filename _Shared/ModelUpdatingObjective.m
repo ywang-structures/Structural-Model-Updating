@@ -3,10 +3,10 @@ function r = ModelUpdatingObjective(x, structModel, expModes, ...
 % function r = ModelUpdatingObjective(alpha, structModel, expModes, 
 %   simModes, updatingOpts)
 %
-%   (c) Yang Wang, Xinjun Dong, Dan Li (all rights reserved)
-%       School of Civil and Environmental Engineering
-%       Georgia Institute of Technology
-%       2018
+%   Yang Wang, Xinjun Dong, Dan Li
+%   School of Civil and Environmental Engineering
+%   Georgia Institute of Technology
+%   2018
 %
 % Revision: 1.0
 %

@@ -12,10 +12,10 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %
 % function updtResults = StructModelUpdating (structModel, expModes)
 %
-%   (c) Yang Wang, Xinjun Dong, Dan Li (all rights reserved)
-%       School of Civil and Environmental Engineering
-%       Georgia Institute of Technology
-%       2018
+%   Yang Wang, Xinjun Dong, Dan Li
+%   School of Civil and Environmental Engineering
+%   Georgia Institute of Technology
+%   2018
 %
 % Revision: 1.0
 %
