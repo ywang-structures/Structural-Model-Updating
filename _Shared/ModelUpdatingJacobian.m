@@ -1,7 +1,7 @@
 function jac = ModelUpdatingJacobian(x, structModel, expModes, ...
     simModes, updatingOpts)
 % function jac = ModelUpdatingJacobian(alpha, structModel, expModes, 
-%   simModes, updatingOpts)
+%   simModes, updatingOpts) 
 %
 %   Yang Wang, Xinjun Dong, Dan Li
 %   School of Civil and Environmental Engineering

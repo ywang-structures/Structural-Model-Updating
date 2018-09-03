@@ -1,6 +1,6 @@
 function updtRslts = StructModelUpdating (structModel, expModes, ...
     updatingOpts, optimzOpts)
-
+ 
 % function updtResults = StructModelUpdating (structModel, expModes, ...
 %   updatingOpts, optimzOpts)
 %

@@ -1,10 +1,10 @@
 function [r] =  ObjFuncMPDLsqnonlin(expModes, simModes, eigFreqOpt, normOpt, objOpt)
 % function [r] =  ObjFuncMPDLsqnonlin(expModes, simModes, eigFreqOpt, normOpt, objOpt)
-%
-%       Yang Wang, Xinjun Dong, Dan Li
-%       School of Civil and Environmental Engineering
-%       Georgia Institute of Technology
-%       2018
+% 
+%   Yang Wang, Xinjun Dong, Dan Li
+%   School of Civil and Environmental Engineering
+%   Georgia Institute of Technology
+%   2018
 %
 % Revision: 1.0
 %

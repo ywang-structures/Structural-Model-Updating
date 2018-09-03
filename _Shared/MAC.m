@@ -1,6 +1,6 @@
 function macs = MAC(vec, vecs)
 
-% function mc = MAC(vec, vects)
+% function mc = MAC(vec, vects) 
 %
 %   Yang Wang, Xinjun Dong, Dan Li
 %   School of Civil and Environmental Engineering

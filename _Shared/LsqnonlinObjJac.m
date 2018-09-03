@@ -2,7 +2,7 @@ function [r, jac] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts)
 %
 % function [r, jac] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts)
 %
-% function [r] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts)
+% function [r] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts) 
 %
 %   Yang Wang, Xinjun Dong, Dan Li
 %   School of Civil and Environmental Engineering

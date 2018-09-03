@@ -1,7 +1,7 @@
 function r = ModelUpdatingObjective(x, structModel, expModes, ...
     simModes, updatingOpts)
 % function r = ModelUpdatingObjective(alpha, structModel, expModes, 
-%   simModes, updatingOpts)
+%   simModes, updatingOpts) 
 %
 %   Yang Wang, Xinjun Dong, Dan Li
 %   School of Civil and Environmental Engineering
