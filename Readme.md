@@ -21,3 +21,13 @@ The folder contains example code and data for the updating of a concrete buildin
 The folder contains example code and data for the updating of a steel pedestrian bridge model.
 
 
+## Contact
+
+Yang Wang, Ph.D.\
+Associate Professor\
+School of Civil and Environmental Engineering &\
+School of Electrical and Computer Engineering\
+Georgia Institute of Technology\
+790 Atlantic Dr NW, Atlanta, GA 30332-0355\
+E-mail: yang.wang@ce.gatech.edu\
+Webpage: http://wang.ce.gatech.edu
