@@ -26,7 +26,7 @@ r =  ObjFuncMPDLsqnonlin(expModes, simModes, eigFreqOpt, normOpt, objOpt)
 ## Description
 ### Input Arguments
 #### expModes - a MATLAB structure array with experimental modal properties for model updating:
-|Fields        |Dimension        | Description                    |
+|Field Name    |Dimension        | Description                    |
 | ------------ | --------------- | ------------------------------ |
 |lambdaExp     |n_modes x 1      |experimental eigenvalue. Here n_modes refers to the number of experimental modes available |
 |psiExp        |n_meas x n_modes |experimental mode shape vector at measured DOFs. Here n_meas refers to the number of measured DOFs |
@@ -35,29 +35,31 @@ r =  ObjFuncMPDLsqnonlin(expModes, simModes, eigFreqOpt, normOpt, objOpt)
 |psiWeights    |n_modes x 1      |weighting factor for eigenvector|
 
 #### simModes - a MATLAB structure array with simulated modal properties for model updating:
-|Fields           |Dimension  | Description                    |
-| ----------------|-----------| ------------------------------ |
-|Lambda |n_modes x 1|simulated eigenvalue|
-|psi_m  |n_meas x n_modes|simulated mode shape vector at measured DOFs|
-|psi    |N x n_modes|simulated mode shape vector at all DOFs|
+|Field Name |Dimension        | Description                    |
+| ----------|---------------- | ------------------------------ |
+|Lambda     |n_modes x 1      |simulated eigenvalue|
+|psi_m      |n_meas x n_modes |simulated mode shape vector at measured DOFs|
+|psi        |N x n_modes      |simulated mode shape vector at all DOFs|
 
-#### eigFreqOpt
+#### eigFreqOpt - eigenfrequency options
 |Values | Description         |
-|-------|---------------------| 
+|-------|---------------------|
 |0      |use eigenvalue difference|
 |1      |angular frequency difference (rad/s)|
 |2      |ordinary frequency differnce (Hz)|
 
-#### normOpt
+#### normOpt - norm options
 |Values | Description         |
-|-------|---------------------| 
+|-------|---------------------|
 |1      |normalize the qi-th entry of the eigenvector to 1|
 |2      |normalize the length of the eigenvector to 1|
 
-#### objOpt
+#### objOpt - objective function options
 |Values | Description         |
-|-------|---------------------| 
+|-------|---------------------|
 |1      |MAC value formulation|
 |2      |eigenvector difference formulation|
 
+### Output Arguments
+#### r - the objective residual vector r(x)
 
