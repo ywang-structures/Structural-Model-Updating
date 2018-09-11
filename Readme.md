@@ -20,6 +20,8 @@ The folder contains example code and data for the updating of a concrete buildin
 “\SteelPedestrianBridge”
 The folder contains example code and data for the updating of a steel pedestrian bridge model.
 
+## Reference
+Dong, X., and Wang, Y. (2018). "Formulation and optimization algorithm comparison for the FE model updating of large-scale structures." under review
 
 ## Contact
 
