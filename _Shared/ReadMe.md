@@ -42,6 +42,44 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
 |measDOFs      |n_meas x 1       |measured DOFs|
 |lambdaWeights |n_modes x 1      |weighting factor for eigenvalue|
 |psiWeights    |n_modes x 1      |weighting factor for eigenvector|
+#### updatingOpts - a MATLAB structure array with model updating options:
+|Field Name    |Description                    |
+| ------------ | ------------------------------|
+|formID        |formulation ID number (default: 1)
+1: Case 1 - conventional modal property difference formulation using MAC values
+2: Case 2 - modal property difference formulation with eigenvector difference formulation|
+%       modeMatch - Option for the matching method between simulated and
+%       experimental modes (default: 1)
+%           1: Match by the MAC value between the pair of simulated and
+%             experimental mode shape vectors.
+%           2: Strictly match the first designated simulated mode with the
+%             first experimental mode (see simModesForExpMatch on how to
+%             designate the simulated modes), the second designated
+%             simulated mode with the second experimental mode, etc. Only
+%             use this option when we are confident all the lowest few
+%             experimental modes are captured, i.e. there is no missing
+%             or unmeasured/undetected mode from the experimental data.
+%       simModesForExpMatch - designate simulated modes obtained from FE
+%       model for matching with experimental modes
+%          If modeMatch = 1,
+%               Set simModesForExpMatch as an integer representing the
+%               number of simulated modes that will be compared with
+%               experimental modes for similarity matching by MAC value.
+%               The matched pair will be used for evaluating objective
+%               function value. (default: min(n_modes x 2, N))
+%          If modeMatch = 2,
+%               Set simModesForExpMatch as a (n_modes x 1) array.  For
+%               evaluating the objective function, the first experimental
+%               mode will be matched with simModesForExpMatch(1)-th
+%               simulated mode; the second experimental mode will be
+%               matched with simModesForExpMatch(2)-th mode, etc.
+%          x_ub - upper bounds of updating variables
+%               formID < 3 - n_alpha x 1 (default: [])
+%               formID = 3 - (n_alpha + n_unmeas x n_modes) x 1 (default: [])
+%               Here n_unmeas refers to the number of unmeasured DOFs
+%          x_lb - lowe bounds of updating variables
+%               formID < 3 - n_alpha x 1 (default: [])
+%               formID = 3 - (n_alpha + n_unmeas x n_modes) x 1 (default: [])
 
 
 # ObjFuncMPDLsqnonlin.m
