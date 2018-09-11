@@ -2,7 +2,7 @@
 
 **Table of Contents**
 
-[TOC]
+$$ x > y $$
 
 # MultiRunModelUpdating.m
 The script can perform multiple runs of model updating by starting the search from randomized starting points.
