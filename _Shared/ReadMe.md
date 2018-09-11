@@ -46,8 +46,8 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
 |Field Name    |Description                    |
 | ------------ | ------------------------------|
 |formID        |formulation ID number (default: 1)
-1: Case 1 - conventional modal property difference formulation using MAC values
-2: Case 2 - modal property difference formulation with eigenvector difference formulation|
+- 1: Case 1 - conventional modal property difference formulation using MAC values
+- 2: Case 2 - modal property difference formulation with eigenvector difference formulation|
 %       modeMatch - Option for the matching method between simulated and
 %       experimental modes (default: 1)
 %           1: Match by the MAC value between the pair of simulated and
