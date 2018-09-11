@@ -63,3 +63,4 @@ r =  ObjFuncMPDLsqnonlin(expModes, simModes, eigFreqOpt, normOpt, objOpt)
 ### Output Arguments
 #### r - the objective residual vector r(x)
 
+$$\(\sqrt{3x-1}+(1+x)^2\)$$
