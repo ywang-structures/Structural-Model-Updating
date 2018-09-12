@@ -1,7 +1,7 @@
 # ReadMe.md
 
 **Table of Contents**
-<img src="http://latex.codecogs.com/gif.latex?N&space;\times&space;N" title="N \times N" />
+<img src="http://latex.codecogs.com/gif.latex?N&space;\times&space;N" title="n_modes \times 1" />
 
 # StructModelUpdating.m
 This function performs one run of the finite element model updating usingmfrequency domain modal properties. The starting point for this run can be provided as optimzOpts.x0.
