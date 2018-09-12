@@ -28,8 +28,8 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
 #### updatingOpts - a MATLAB structure array with model updating options:
 <table>
   <tr>
-    <th text-align: left;>Field Name</th>
-    <th text-align: left;>Description</th>
+    <th text-align="left">Field Name</th>
+    <th text-align="left">Description</th>
   </tr>
   <tr>
     <td>formID</td>
