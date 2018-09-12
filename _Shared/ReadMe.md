@@ -26,3 +26,18 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
 |measDOFs      |n_meas x 1       |measured DOFs |
 |lambdaWeights |n_modes x 1      |weighting factor for eigenvalue |
 |psiWeights    |n_modes x 1      |weighting factor for eigenvector |
+
+<table>
+  <tr>
+    <th>Month</th>
+    <th>Savings</th>
+  </tr>
+  <tr>
+    <td>January</td>
+    <td>$100</td>
+  </tr>
+  <tr>
+    <td>February</td>
+    <td>$80</td>
+  </tr>
+</table>
