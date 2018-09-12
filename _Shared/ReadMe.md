@@ -1,7 +1,7 @@
 # ReadMe.md
 
 **Table of Contents**
-- <img src="https://latex.codecogs.com/gif.latex?s=\text { sensor reading }  " />
+<a href="http://www.codecogs.com/eqnedit.php?latex=N&space;\times&space;N" target="_blank"><img src="http://latex.codecogs.com/gif.latex?N&space;\times&space;N" title="N \times N" /></a>
 
 # StructModelUpdating.m
 This function performs one run of the finite element model updating usingmfrequency domain modal properties. The starting point for this run can be provided as optimzOpts.x0.
