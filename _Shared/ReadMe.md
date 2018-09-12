@@ -26,6 +26,11 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
 |lambdaWeights |n_modes x 1      |weighting factor for eigenvalue |
 |psiWeights    |n_modes x 1      |weighting factor for eigenvector |
 #### updatingOpts - a MATLAB structure array with model updating options:
+<style>
+th, td {
+    text-align: left;
+}
+</style>
 <table>
   <tr>
     <th>Field Name</th>
