@@ -74,26 +74,8 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
   </tr>
 </table>
 
-
 WARNING: when using Levenberg-Marquardt optimization algorithm in MATLAB, setting the upper and lower bounds of updating variables has no effect because the MATLAB L-M implementation does not accept bounds. The optimization may provide an infeasible out-of-the-bound solution. The user needs to verify the feasibility of the solution.
 #### optimzOpts - optimization options. The current revision supports MATLAB lsqnonlin function.
-|Field Name    |Description                    |
-|:-------------|:------------------------------|
-|maxIter       |maximum iterations of optimization process (default: 400)|
-|maxFunEvals   |maximum number of function evaluations allowed (default: 100 x n_alpha)|
-|tolFun        |termination tolerance on the value change of the objective function between two iterations (default: 1e-6)|
-|tolX          |termination tolerance on the value change of the optimization vector variables between two iterations (default: 1e-6)|
-|gradSel       |selection for gradient calculation
-- 'on': calculate search gradient with user-defined Jacobian matrix. With r representing the residual vector whose length square is the objective function value, The gradient [d_f / d_alpha]' = [(d_f / d_r) * ((d_r / d_alpha)]'
-- 'off': let MATLAB numerically calculate gradient matrix using finite difference method (default)|
-|optAlgorithm  |optimization algorithm
-- 'trust-region-reflective' algorithm
-- 'Levenberg-Marquardt' algorithm (default) |
-|x0            |initial value for updating variables
-- formID < 3 - n_alpha x 1 
-- formID = 3 - (n_alpha + n_unmeas x n_modes) x 1 
-(default: zero vector)|
-
 <table>
   <tr>
     <th text-align="left">Field Name</th>
@@ -137,9 +119,11 @@ WARNING: when using Levenberg-Marquardt optimization algorithm in MATLAB, settin
     	initial value for updating variables <br>
         - formID < 3 - n_alpha x 1 <br>
         - formID = 3 - (n_alpha + n_unmeas x n_modes) x 1 <br>
+        (default: zero vector) <br>
     </td>
   </tr>
 </table>
+
 ### Output Arguments
 #### updtResults - A structure array with model updating results:
 |Field Name    |Description                    |
