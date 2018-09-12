@@ -73,3 +73,116 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
     </td>
   </tr>
 </table>
+
+
+WARNING: when using Levenberg-Marquardt optimization algorithm in MATLAB, setting the upper and lower bounds of updating variables has no effect because the MATLAB L-M implementation does not accept bounds. The optimization may provide an infeasible out-of-the-bound solution. The user needs to verify the feasibility of the solution.
+#### optimzOpts - optimization options. The current revision supports MATLAB lsqnonlin function.
+|Field Name    |Description                    |
+|:-------------|:------------------------------|
+|maxIter       |maximum iterations of optimization process (default: 400)|
+|maxFunEvals   |maximum number of function evaluations allowed (default: 100 x n_alpha)|
+|tolFun        |termination tolerance on the value change of the objective function between two iterations (default: 1e-6)|
+|tolX          |termination tolerance on the value change of the optimization vector variables between two iterations (default: 1e-6)|
+|gradSel       |selection for gradient calculation
+- 'on': calculate search gradient with user-defined Jacobian matrix. With r representing the residual vector whose length square is the objective function value, The gradient [d_f / d_alpha]' = [(d_f / d_r) * ((d_r / d_alpha)]'
+- 'off': let MATLAB numerically calculate gradient matrix using finite difference method (default)|
+|optAlgorithm  |optimization algorithm
+- 'trust-region-reflective' algorithm
+- 'Levenberg-Marquardt' algorithm (default) |
+|x0            |initial value for updating variables
+- formID < 3 - n_alpha x 1 
+- formID = 3 - (n_alpha + n_unmeas x n_modes) x 1 
+(default: zero vector)|
+
+<table>
+  <tr>
+    <th text-align="left">Field Name</th>
+    <th text-align="left">Description</th>
+  </tr>
+  <tr>
+    <td>maxIter</td>
+    <td>maximum iterations of optimization process (default: 400)</td>
+  </tr>
+  <tr>
+    <td>maxFunEvals</td>
+    <td>maximum number of function evaluations allowed (default: 100 x n_alpha)</td>
+  </tr>
+  <tr>
+  	<td>tolFun</td>
+    <td>termination tolerance on the value change of the objective function between two iterations (default: 1e-6)</td>
+  </tr>
+  <tr>
+    <td>tolX</td>
+    <td>termination tolerance on the value change of the optimization vector variables between two iterations (default: 1e-6)</td>
+  </tr>
+  <tr>
+    <td>gradSel</td>
+    <td>
+      selection for gradient calculation <br>
+      - 'on': calculate search gradient with user-defined Jacobian matrix. With r representing the residual vector whose length square is the objective function value, The gradient [d_f / d_alpha]' = [(d_f / d_r) * ((d_r / d_alpha)]' <br>
+      - 'off': let MATLAB numerically calculate gradient matrix using finite difference method (default)
+    </td>
+  </tr>
+  <tr>
+  	<td>optAlgorithm</td>
+    <td>
+    	optimization algorithm <br>
+        - 'trust-region-reflective' algorithm <br>
+        - 'Levenberg-Marquardt' algorithm (default) <br>
+    </td>
+  </tr>
+  <tr>
+  	<td>x0</td>
+    <td>
+    	initial value for updating variables <br>
+        - formID < 3 - n_alpha x 1 <br>
+        - formID = 3 - (n_alpha + n_unmeas x n_modes) x 1 <br>
+    </td>
+  </tr>
+</table>
+### Output Arguments
+#### updtResults - A structure array with model updating results:
+|Field Name    |Description                    |
+| ------------ | ------------------------------|
+|xOpt          |optimal value of updating variables |
+|fvalOpt       |optimal value of objective function value|
+|exitFlag      |exit flag of MATLAB lsqnonlin (check MATLAB lsqnolin help for detail: https://www.mathworks.com/help/optim/ug/lsqnonlin.html) |
+|gradient      |gradient of objective function at alphaOpt|
+
+# ModelUpdatingObjective.m
+This function calculates the objective residuals of the optimization problem for model updating. When MATLAB lsqnonlin solver is used, the output contains a vector (r) whose entries are the residuals.
+## Syntax
+r = ModelUpdatingObjective(alpha, structModel, expModes, simModes, updatingOpts)
+## Description
+### Input Arguments
+#### x - a vector with values of the optimization variables
+#### structModel - a MATLAB structure array with following fields of structural model information:
+|Field Name    |Dimension        |Description                    |
+| ------------ | --------------- | ------------------------------|
+|M0            |N x N            |mass matrix (assumed accurate enough and no need to update in current revision). Here N refers to the number of degrees of freedom of the finite element model|
+|K0            |N x N            |nominal stiffness matrix constructed with nominal parameter values|
+|K_j           |N x N x n_alpha  |influence matrix corresponding to updating variables (Note: the third dimension of K_j should be equal to the number of updating variables). Here n_alpha refers the number of stiffness updating variables|
+|K             |N x N            |stiffness matrix constructed with the current alpha values, using K0 and K_j|
+#### expModes - a MATLAB structure array with experimental modal properties for model updating:
+|Field Name    |Dimension        |Description                    |
+| ------------ | --------------- | ------------------------------|
+|lambdaExp     |n_modes x 1      |experimental eigenvalue. Here n_modes refers to the number of experimental modes available|
+|psiExp        |n_meas x n_modes |experimental mode shape vector at measured DOFs. Here n_meas refers to the number of measured DOFs|
+|measDOFs      |n_meas x 1       |measured DOFs|
+|lambdaWeights |n_modes x 1      |weighting factor for eigenvalue|
+|psiWeights    |n_modes x 1      |weighting factor for eigenvector|
+#### simModes - a MATLAB structure array with simulated modal properties for model updating:
+|Field Name |Dimension        | Description                    |
+| ----------|---------------- | ------------------------------ |
+|Lambda     |n_modes x 1      |simulated eigenvalue|
+|psi_m      |n_meas x n_modes |simulated mode shape vector at measured DOFs|
+|psi        |N x n_modes      |simulated mode shape vector at all DOFs|
+#### updatingOpts - a MATLAB structure array with model updating options:
+|Field Name    |Description                    |
+| ------------ | ------------------------------|
+|formID        |formulation ID number (default: 1)
+- 1: Case 1 - conventional modal property difference formulation using MAC values
+- 2: Case 2 - modal property difference formulation with eigenvector difference formulation|
+### Output Arguments
+#### r - the objective residual vector r(x)
+
