@@ -164,7 +164,7 @@ r = ModelUpdatingObjective(alpha, structModel, expModes, simModes, updatingOpts)
 #### updatingOpts - a MATLAB structure array with model updating options:
 |Field Name    |Description                    |
 | ------------ | ------------------------------|
-|formID        |formulation ID number (default: 1)
+|formID        |formulation ID number (default: 1)|
 - 1: Case 1 - conventional modal property difference formulation using MAC values
 <a href="https://www.codecogs.com/eqnedit.php?latex=\dpi{200}&space;\small&space;\min_{\mathbf{\alpha}}&space;\sum_{i=1}^{n_\mathrm{modes}}\left&space;\{&space;(\frac{{\lambda}_i^\mathrm{EXP}-\lambda_i(\mathbf{\alpha})}{\lambda_i^\mathrm{EXP}}\cdot&space;w_{\lambda_i})^2&space;&plus;&space;(\frac{1-\sqrt{\mathrm{MAC}_i(\mathbf{\alpha})}}{\sqrt{\mathrm{MAC}_i(\mathbf{\alpha})}}\cdot&space;w_{\mathbf{\psi&space;}_i})^2&space;\right&space;\}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\dpi{200}&space;\small&space;\min_{\mathbf{\alpha}}&space;\sum_{i=1}^{n_\mathrm{modes}}\left&space;\{&space;(\frac{{\lambda}_i^\mathrm{EXP}-\lambda_i(\mathbf{\alpha})}{\lambda_i^\mathrm{EXP}}\cdot&space;w_{\lambda_i})^2&space;&plus;&space;(\frac{1-\sqrt{\mathrm{MAC}_i(\mathbf{\alpha})}}{\sqrt{\mathrm{MAC}_i(\mathbf{\alpha})}}\cdot&space;w_{\mathbf{\psi&space;}_i})^2&space;\right&space;\}" title="\small \min_{\mathbf{\alpha}} \sum_{i=1}^{n_\mathrm{modes}}\left \{ (\frac{{\lambda}_i^\mathrm{EXP}-\lambda_i(\mathbf{\alpha})}{\lambda_i^\mathrm{EXP}}\cdot w_{\lambda_i})^2 + (\frac{1-\sqrt{\mathrm{MAC}_i(\mathbf{\alpha})}}{\sqrt{\mathrm{MAC}_i(\mathbf{\alpha})}}\cdot w_{\mathbf{\psi }_i})^2 \right \}" /></a>
 - 2: Case 2 - modal property difference formulation with eigenvector difference formulation
