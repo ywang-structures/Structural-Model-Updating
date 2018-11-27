@@ -78,7 +78,19 @@ switch updatingOpts.formID
     case 2.5
         r = ObjFuncMPDLsqnonlin(expModes, simModes, 2, 2, 2);
     case 3.0
-        r =  ObjFuncMDRLsqnonlin(x, structModel, expModes, 1);             
+        r = ObjFuncMDRLsqnonlin(x, structModel, expModes);
+    case 4.0
+        r = ObjFuncMPDLsqnonlin(expModes, simModes, 0, 1, 1);
+    case 4.1
+        r = ObjFuncMPDLsqnonlin(expModes, simModes, 1, 1, 1);
+    case 4.2
+        r = ObjFuncMPDLsqnonlin(expModes, simModes, 2, 1, 1);
+    case 5.0
+        r = ObjFuncMPDLsqnonlin(expModes, simModes, 0, 1, 2);
+    case 5.1
+        r = ObjFuncMPDLsqnonlin(expModes, simModes, 1, 1, 2);
+    case 5.2
+        r = ObjFuncMPDLsqnonlin(expModes, simModes, 2, 1, 2);
     otherwise
         error('\nWrong option for objective function!');
 end

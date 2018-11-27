@@ -218,6 +218,11 @@ else
         optimzOpts.optAlgorithm = 'Levenberg-Marquardt';
     end
     
+     if (~isfield(optimzOpts, 'toolBox'))
+        optimzOpts.toolBox = 'lsqnonlin';
+    end
+    
+        
     if (~isfield(optimzOpts, 'x0'))
         optimzOpts.x0 = zeros(n_x, 1);
     end
@@ -241,8 +246,12 @@ if( updatingOpts.formID < 2.3)
     % Normalize mode shape vector so that the maximum entry magnitude = 1.
     % The entry index is denoted as q(i).
     for i = 1 : expModes.n_modes
-        [~, expModes.q(i)] = max( abs( expModes.psiExp(:,i) ) );
-        expModes.psiExp(:,i) = expModes.psiExp(:,i) / expModes.psiExp(expModes.q(i), i);
+        if(~isempty(find(expModes.psiExp(:,i) == 1, 1)))
+            expModes.q(i) = find(expModes.psiExp(:,i) == 1);
+        else
+            [~, expModes.q(i)] = max( abs( expModes.psiExp(:,i) ) );
+            expModes.psiExp(:,i) = expModes.psiExp(:,i) / expModes.psiExp(expModes.q(i), i);
+        end
     end
 else
     % Normalize mode shape vector so that the length = 1.
@@ -251,6 +260,13 @@ else
     end
 end
 
+if( (updatingOpts.formID >= 2 && updatingOpts.formID < 3) || updatingOpts.formID >= 5) 
+    if(size(expModes.psiWeights,1) <  expModes.n_meas)
+        expModes.psiWeights =  expModes.psiWeights' .*...
+                                 ones(expModes.n_meas, expModes.n_modes);
+    end
+    
+end
 % Accommodate different variable names in different MATLAB versions.
 vers_temp = version( '-release' );
 MAT_version = str2num( vers_temp(1 : 4) );
@@ -262,10 +278,6 @@ else
     maxFunName = 'maxFunEvals';
 end
 
-options = optimoptions( 'lsqnonlin', 'tolFun', optimzOpts.tolFun, 'tolX', optimzOpts.tolX,...
-    'Algorithm', optimzOpts.optAlgorithm, 'Disp', 'iter', 'Jacobian', optimzOpts.gradSel,...
-    maxIterName, optimzOpts.maxIter, maxFunName, optimzOpts.maxFunEvals );
-
 % If the bounds are not empty, MATLAB forces to use
 % trust-region-reflective algorithm.
 if strcmp(optimzOpts.optAlgorithm, 'Levenberg-Marquardt')
@@ -273,10 +285,45 @@ if strcmp(optimzOpts.optAlgorithm, 'Levenberg-Marquardt')
     updatingOpts.x_ub = [];
 end
 
-fun = @(x) LsqnonlinObjJac(x, structModel, expModes, updatingOpts );
+fun = @(x) LsqnonlinObjJac(x, structModel, expModes, updatingOpts,optimzOpts.toolBox);
 
-[updtRslts.xOpt, updtRslts.fvalOpt, updtRslts.residual, updtRslts.exitFlag, ...
-    updtRslts.lsqnOutput, ~, Jac_temp] = lsqnonlin( fun, optimzOpts.x0, ...
-    updatingOpts.x_lb, updatingOpts.x_ub, options );
-
-updtRslts.gradient = 2 * full(Jac_temp)' * updtRslts.residual;
+if(strcmp(optimzOpts.toolBox,'lsqnonlin'))
+    options = optimoptions( 'lsqnonlin', 'tolFun', optimzOpts.tolFun, 'tolX', optimzOpts.tolX,...
+        'Algorithm', optimzOpts.optAlgorithm, 'Disp', 'iter', 'Jacobian', optimzOpts.gradSel,...
+        maxIterName, optimzOpts.maxIter, maxFunName, optimzOpts.maxFunEvals );
+    if strcmp(optimzOpts.optAlgorithm, 'Levenberg-Marquardt')
+        updatingOpts.x_lb = [];
+        updatingOpts.x_ub = [];
+    end
+    % If the bounds are not empty, MATLAB forces to use
+    % trust-region-reflective algorithm.
+    [updtRslts.xOpt, updtRslts.fvalOpt, updtRslts.residual, updtRslts.exitFlag, ...
+        updtRslts.lsqnOutput, ~, Jac_temp] = lsqnonlin( fun, optimzOpts.x0, ...
+        updatingOpts.x_lb, updatingOpts.x_ub, options );
+    updtRslts.gradient = 2 * full(Jac_temp)' * updtRslts.residual;
+elseif(strcmp(optimzOpts.toolBox,'Gauss-Newton'))
+    % Gauss-Newton option
+    options = struct('tolGrad',optimzOpts.tolGrad,'tolX',optimzOpts.tolX,'tolFun',optimzOpts.tolFun,...
+        'ub',updatingOpts.x_ub,'lb',updatingOpts.x_lb,'maxNumItr',optimzOpts.maxIter);
+    [updtRslts.xOpt, updtRslts.fvalOpt, updtRslts.residual, OUTPUT] = GaussNewton(fun, optimzOpts.x0,options);
+    updtRslts.exitFlag = OUTPUT.exitflag;
+    updtRslts.gradient = OUTPUT.grad;
+elseif(strcmp(optimzOpts.toolBox,'L_M'))
+    % Own L_M option
+    options = struct('tolGrad',optimzOpts.tolGrad,'tolX',optimzOpts.tolX,'tolFun',optimzOpts.tolFun,...
+        'ub',updatingOpts.x_ub,'lb',updatingOpts.x_lb,'maxNumItr',optimzOpts.maxIter);
+    [updtRslts.xOpt, updtRslts.fvalOpt,updtRslts.residual, OUTPUT ] = L_M(fun, optimzOpts.x0,options);
+    updtRslts.gradient = OUTPUT.gradient;
+    updtRslts.exitFlag = OUTPUT.exitflag;
+elseif(strcmp(optimzOpts.toolBox,'fmincon'))
+    if(strcmp(optimzOpts.gradSel,'on'))
+        optimzOpts.gradSel = true;
+    else
+        optimzOpts.gradSel = false;
+    end
+    options = optimoptions( 'fmincon', 'tolFun', optimzOpts.tolFun, 'tolX', optimzOpts.tolX,...
+        'Algorithm', optimzOpts.optAlgorithm, 'Disp', 'iter', 'SpecifyObjectiveGradient',optimzOpts.gradSel,...
+        maxIterName, optimzOpts.maxIter, maxFunName, optimzOpts.maxFunEvals );
+    [updtRslts.xOpt, updtRslts.fvalOpt, updtRslts.exitFlag, updtRslts.fmcnOutput,~,updtRslts.gradient] = fmincon( fun, optimzOpts.x0,[],[],[],[], ...
+        updatingOpts.x_lb, updatingOpts.x_ub,[], options );
+end

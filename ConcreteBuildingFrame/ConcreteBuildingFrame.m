@@ -21,7 +21,8 @@ structModel.K_j = K_j;
 %% Optimization structure parameter;
 optimzOpts.tolFun = 1e-10;
 optimzOpts.tolX = 1e-10;
-optimzOpts.optAlgorithm = 'Levenberg-Marquardt';
+optimzOpts.toolBox  = 'fmincon';
+optimzOpts.optAlgorithm = 'interior-point';
 optimzOpts.gradSel = 'on';
 optimzOpts.maxIter = 1e4;
 optimzOpts.maxFunEvals = 2e4;
@@ -49,7 +50,7 @@ expModes.psiWeights = ones(n_modes,1);
 
 
 %% Model updating parameter
-updatingOpts.formID = 1.0;       % 1: Modal property diff (MAC) ;
+updatingOpts.formID = 2.0;       % 1: Modal property diff (MAC) ;
                                  % 2: Modal property diff (V_mDiff);
 updatingOpts.modeMatch = 2;      % 1: Without forced matching;
                                  % 2: With forced matching;
@@ -60,11 +61,7 @@ updatingOpts.x_ub =  ones(n_alpha,1);
 %% MultiStart optimization
 numRuns = 100;
 randSeed = 3;
-if(strcmp(optimzOpts.optAlgorithm,'Levenberg-Marquardt'))
-    filename = ['ConcBuildFrm_form' num2str(updatingOpts.formID) '_JAC' optimzOpts.gradSel '_LM.mat'];
-else
-    filename = ['ConcBuildFrm_form' num2str(updatingOpts.formID) '_JAC' optimzOpts.gradSel '_TRR.mat'];
-end
+filename = ['ConcBuildFrm_form' num2str(updatingOpts.formID) '_JAC' optimzOpts.gradSel '_' optimzOpts.optAlgorithm '.mat'];
 
 MultiRunModelUpdating
 

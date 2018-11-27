@@ -1,20 +1,20 @@
-function [r, jac] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts)
+function [r, jac] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts,optToolBox)
+
+% function [r, jac] = ModelUpdatingObjJac(x, structModel, expModes, updatingOpts,optToolBox)
 %
-% function [r, jac] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts)
+% function [r] = ModelUpdatingObjJac(x, structModel, expModes, updatingOpts,optToolBox)
 %
-% function [r] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts) 
-%
-%   Yang Wang, Xinjun Dong, Dan Li
-%   School of Civil and Environmental Engineering
-%   Georgia Institute of Technology
-%   2018
+%   (c) Yang Wang, Xinjun Dong, Dan Li (all rights reserved)
+%       School of Civil and Environmental Engineering
+%       Georgia Institute of Technology
+%       2018
 %
 % Revision: 1.0
 %
-% For implementation with MATLAB lsqnonlin, this function calculates the
-% objective residual vector r(x) and returns as the first argument. When
-% the function is called with two  output arguments:
-%   [r, jac] = LsqnonlinObjJac(alpha, structModel, expModes, updatingOpts)
+% For implementation with different optimization algorithm, this function 
+% calculates the objective residual vector r(x) and returns as the first 
+% argument. When the function is called with two  output arguments:
+%   [r, jac] = ModelUpdatingObjJac(alpha, structModel, expModes, updatingOpts)
 % The function evaluates the user-provided analytical Jacobian matrix
 % (d_r/d_x), and returns in the second argument.
 %
@@ -28,7 +28,7 @@ function [r, jac] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts)
 %          degrees of freedom of the finite element model
 %       K0 (N x N) - nominal stiffness matrix constructed with nominal
 %          parameter values
-%       K_j {N x N x n_alpha} - influence matrix corresponding to updating
+%       K_j (N x N x n_alpha) - influence matrix corresponding to updating
 %          variables (Note: the third dimension of K_j should be
 %          equal to the number of updating variables). Here n_alpha refers
 %          the number of stiffness updating variables
@@ -88,6 +88,11 @@ function [r, jac] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts)
 %           bounds. The optimization may provide an infeasible
 %           out-of-the-bound solution. The user needs to verify the
 %           feasibility of the solution.
+%    optToolBox - option of optimization toolbox
+%            'lsqnonlin'
+%            'fmincon'
+%            'Gauss-Newton'
+%            'L_M'
 %
 % Output:
 %	r: the objective residual vector r(x)
@@ -96,6 +101,13 @@ function [r, jac] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts)
 expModes.n_meas = length( expModes.measDOFs ); % # of measured DOFs
 expModes.n_modes = length( expModes.lambdaExp ); % # of available exp-modes
 
+% Create simModes variable to contain simulated modal properties that
+% will be used to match experimental modes when evaluating objective
+% function of Jacobians.
+%   Lambda (n_modes x 1) - simulated eigenvalue
+%   psi_m  (n_meas x n_modes) - simulated mode shape vector at measured DOFs
+%   psi    (N x n_modes) - simulated mode shape vector at all DOFs
+simModes = struct('psi_m',[],'psi',[],'Lambda',[]);
 % Add a new field K into structModel, which represents the stiffness matrix
 % with current alpha values.
 n_alpha = length(structModel.K_j);
@@ -106,7 +118,7 @@ end
 
 if ( updatingOpts.formID ~= 3 )
     % When updatingOpts.formID equals 3, the modal dynamic residual
-    % formulation does not require solving eigs. 
+    % formulation does not require solving eigs.
     numSimModes = max( updatingOpts.simModesForExpMatch );
     eigsOpts.tol = eps;
     [psi, lambda] = eigs( structModel.K, structModel.M0, numSimModes, ...
@@ -131,17 +143,11 @@ if ( updatingOpts.formID ~= 3 )
         error ('\nWrong option for variable updatingOpts.modeMatch (1 or 2).');
     end
     
-    % Create simModes variable to contain simulated modal properties that
-    % will be used to match experimental modes when evaluating objective
-    % function of Jacobians.
-    %   Lambda (n_modes x 1) - simulated eigenvalue
-    %   psi_m  (n_meas x n_modes) - simulated mode shape vector at measured DOFs
-    %   psi    (N x n_modes) - simulated mode shape vector at all DOFs
     simModes.psi_m = psi_m(:, matchedModeIndex);
     simModes.psi = psi(:, matchedModeIndex);
     simModes.Lambda = lambda(matchedModeIndex);
     
-    if( updatingOpts.formID < 2.3)
+    if( updatingOpts.formID < 2.3 || updatingOpts.formID >= 4)
         % Normalize mode shape vector so that the maximum entry magnitude = 1.
         % The entry index is denoted as q(i).
         for i = 1 : expModes.n_modes
@@ -159,7 +165,21 @@ if ( updatingOpts.formID ~= 3 )
 end
 
 r =  ModelUpdatingObjective(x, structModel, expModes, simModes, updatingOpts);
+r = sparse(r);
 if nargout > 1
     jac = ModelUpdatingJacobian(x, structModel, expModes, simModes, updatingOpts);
+    jac = sparse(jac);
 end
+
+% fmincon use scalar as objective function output
+if(strcmp(optToolBox,'fmincon') && updatingOpts.formID < 4)
+    jac = 2 * jac' * r;
+    r = norm(r)^2;
+elseif(strcmp(optToolBox,'fmincon') && updatingOpts.formID >= 4)
+    % log10() of objective function
+    jac = 1 / log(10) / norm(r)^2  * 2 * jac' * r;
+    r = log10(norm(r)^2);
 end
+
+end
+
