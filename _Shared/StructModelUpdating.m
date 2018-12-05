@@ -93,7 +93,7 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %           feasibility of the solution.
 %
 %   optimzOpts - optimization options. The current revision supports MATLAB
-%          lsqnonlin function.
+%          lsqnonlin and fmincon function.
 %       maxIter - maximum iterations of optimization process (default: 400)
 %       maxFunEvals - maximum number of function evaluations
 %           allowed (default: 100 x n_alpha)
@@ -301,20 +301,6 @@ if(strcmp(optimzOpts.toolBox,'lsqnonlin'))
         updtRslts.lsqnOutput, ~, Jac_temp] = lsqnonlin( fun, optimzOpts.x0, ...
         updatingOpts.x_lb, updatingOpts.x_ub, options );
     updtRslts.gradient = 2 * full(Jac_temp)' * updtRslts.residual;
-elseif(strcmp(optimzOpts.toolBox,'Gauss-Newton'))
-    % Gauss-Newton option
-    options = struct('tolGrad',optimzOpts.tolGrad,'tolX',optimzOpts.tolX,'tolFun',optimzOpts.tolFun,...
-        'ub',updatingOpts.x_ub,'lb',updatingOpts.x_lb,'maxNumItr',optimzOpts.maxIter);
-    [updtRslts.xOpt, updtRslts.fvalOpt, updtRslts.residual, OUTPUT] = GaussNewton(fun, optimzOpts.x0,options);
-    updtRslts.exitFlag = OUTPUT.exitflag;
-    updtRslts.gradient = OUTPUT.grad;
-elseif(strcmp(optimzOpts.toolBox,'L_M'))
-    % Own L_M option
-    options = struct('tolGrad',optimzOpts.tolGrad,'tolX',optimzOpts.tolX,'tolFun',optimzOpts.tolFun,...
-        'ub',updatingOpts.x_ub,'lb',updatingOpts.x_lb,'maxNumItr',optimzOpts.maxIter);
-    [updtRslts.xOpt, updtRslts.fvalOpt,updtRslts.residual, OUTPUT ] = L_M(fun, optimzOpts.x0,options);
-    updtRslts.gradient = OUTPUT.gradient;
-    updtRslts.exitFlag = OUTPUT.exitflag;
 elseif(strcmp(optimzOpts.toolBox,'fmincon'))
     if(strcmp(optimzOpts.gradSel,'on'))
         optimzOpts.gradSel = true;
