@@ -9,17 +9,17 @@ n_alpha = length(alpha_act);
 num_star = 100;
 
 %% MAC Jacon
-filename = 'SteelPedBrdg_form1_JACon_LM';
+filename = 'SteelPedBrdg_form1_JACon_Levenberg-Marquardt';
 load(filename);
 [fval_sort1,index] = sort(fval,'ascend');
-x_sort = x(:,index);
+x_sort = alpha(:,index);
 error(1,:) = abs(x_sort(:,1) - alpha_act) ./ (ones(n_alpha,1) + alpha_act) * 100;
 
 
 Figure_updatingErrors_MAC_A_Jac
 
 for i = 1:num_star
-    error_iter = abs(x(:,i) - alpha_act) ./ (ones(n_alpha,1) + alpha_act) * 100;
+    error_iter = abs(alpha(:,i) - alpha_act) ./ (ones(n_alpha,1) + alpha_act) * 100;
     mean_error(i,1) = mean(error_iter);
 end
 
@@ -34,29 +34,27 @@ legend('Case 1(a)')
 
 
 %% Eigval Diff Ana Jac
-filename = 'SteelPedBrdg_form2_JACon_LM';
+filename = 'SteelPedBrdg_form2_JACon_Levenberg-Marquardt';
 load(filename);
 [fval_sort5,index] = sort(fval,'ascend');
-x_sort = x(:,index);
-n_alpha = size(x,1);
+x_sort = alpha(:,index);
 error(1,:) = abs(x_sort(:,1) - alpha_act) ./ (ones(n_alpha,1) + alpha_act) * 100;
  
 for i = 1:num_star
-    error_iter = abs(x(:,i) - alpha_act) ./ (ones(n_alpha,1) + alpha_act) * 100;
+    error_iter = abs(alpha(:,i) - alpha_act) ./ (ones(n_alpha,1) + alpha_act) * 100;
     mean_error(i,1) = mean(error_iter);
 end 
 
 
-filename = 'SteelPedBrdg_form2_JACon_TRR';
+filename = 'SteelPedBrdg_form2_JACon_trust-region-reflective';
 load(filename);
 [fval_sort6,index] = sort(fval,'ascend');
-x_sort = x(:,index);
-n_alpha = size(x,1);
+x_sort = alpha(:,index);
 error(2,:) = abs(x_sort(:,1) - alpha_act) ./ (ones(n_alpha,1) + alpha_act) * 100;
 
 
 for i = 1:num_star
-    error_iter = abs(x(:,i) - alpha_act) ./ (ones(n_alpha,1) + alpha_act) * 100;
+    error_iter = abs(alpha(:,i) - alpha_act) ./ (ones(n_alpha,1) + alpha_act) * 100;
     mean_error(i,2) = mean(error_iter);
 end
 

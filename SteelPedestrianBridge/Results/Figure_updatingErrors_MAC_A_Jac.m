@@ -21,7 +21,7 @@ xtl = {'{\itE}_1','{\itE}_2','{\itE}_3','{\itE}_4','{\itE}_5','{\itE}_6',...
 h = my_xticklabels(gca,1:15,xtl);
 
 legend('Case 1(a)')
-text(0.2,7.5e-3,'Case 1(a), Avg. Err. = 1.90\times10^{-3}%','Fontsize',FZ)
+text(0.2,7.5e-3,'Case 1(a), Avg. Err. = 2.00\times10^{-3}%','Fontsize',FZ)
 ylim([0,8e-3])
 
 
