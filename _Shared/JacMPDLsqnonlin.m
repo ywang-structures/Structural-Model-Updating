@@ -22,7 +22,7 @@ function [jac] = JacMPDLsqnonlin(structModel, expModes, simModes, ...
 %          degrees of freedom of the finite element model
 %       K0 (N x N) - nominal stiffness matrix constructed with nominal
 %          parameter values
-%       K_j (N x N x n_alpha) - influence matrix corresponding to updating
+%       K_j {N x N x n_alpha} - influence matrix corresponding to updating
 %          variables (Note: the third dimension of K_j should be
 %          equal to the number of updating variables). Here n_alpha refers
 %          the number of stiffness updating variables
@@ -104,7 +104,6 @@ for i = 1 : n_modes
     for j = 1 : n_alpha
         dLambda(i,j) = simModes.psi(:,i)' * structModel.K_j{j} *...
             simModes.psi(:,i) / modalMass(i);
-        
         if eigFreqOpt == 0
             d_ri_eigFreqTerm(i,j) = - dLambda(i,j) * expModes.lambdaWeights(i) ...
                 / expModes.lambdaExp(i) ;
