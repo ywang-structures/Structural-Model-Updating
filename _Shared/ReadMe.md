@@ -109,7 +109,7 @@ WARNING: when using Levenberg-Marquardt optimization algorithm in MATLAB, settin
     <td>toolBox</td>
     <td>
       optimization toolbox <br>
-        - 'lsqnonlin' (default)
+        - 'lsqnonlin' (default) <br>
         - 'fmincon'
     </td>
   </tr>

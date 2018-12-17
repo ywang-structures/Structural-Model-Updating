@@ -122,8 +122,7 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %            formID < 3 - n_alpha x 1
 %            formID = 3 - (n_alpha + n_unmeas x n_modes) x 1
 %            (default: zero vector)
-%
-%
+%%
 % Output:
 %   A structure array with following fields:
 %      xOpt - optimal value of updating variables
