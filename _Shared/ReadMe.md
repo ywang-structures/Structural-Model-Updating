@@ -12,11 +12,11 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
 ## Description
 ### Input Arguments
 #### structModel - a MATLAB structure array with following fields of structural model information:
-|Field Name |Dimension       |Description                    |
-|:----------|:---------------|:------------------------------|
-|M0         |N x N           |mass matrix (assumed accurate enough and no need to update in current revision). Here N refers to the number of degrees of freedom of the finite element model |
-|K0         |N x N           |nominal stiffness matrix constructed with nominal parameter values |
-|K_j        |N x N x n_alpha |influence matrix corresponding to updating variables (Note: the third dimension of K_j should be equal to the number of updating variables). Here n_alpha refers the number of stiffness updating variables |
+|Field Name |Dimension         |Description                    |
+|:----------|:---------------  |:------------------------------|
+|M0         |N x N             |mass matrix (assumed accurate enough and no need to update in current revision). Here N refers to the number of degrees of freedom of the finite element model |
+|K0         |N x N             |nominal stiffness matrix constructed with nominal parameter values |
+|K_j        |N x N x {n_alpha} |influence matrix corresponding to updating variables (Note: the length of K_j should be equal to the number of updating variables). Here n_alpha refers the number of stiffness updating variables |
 #### expModes - a MATLAB structure array with experimental modal properties for model updating:
 |Field Name    |Dimension        |Description                    |
 |:-------------|:----------------|:------------------------------|
@@ -106,11 +106,23 @@ WARNING: when using Levenberg-Marquardt optimization algorithm in MATLAB, settin
     </td>
   </tr>
   <tr>
+    <td>toolBox</td>
+    <td>
+      optimization toolbox <br>
+        - 'lsqnonlin' (default)
+        - 'fmincon'
+    </td>
+  </tr>
+  <tr>
   	<td>optAlgorithm</td>
     <td>
     	optimization algorithm <br>
-        - 'trust-region-reflective' algorithm <br>
-        - 'Levenberg-Marquardt' algorithm (default) <br>
+        lsqnonlin<br>
+          - 'trust-region-reflective' algorithm <br>
+          - 'Levenberg-Marquardt' algorithm (default) <br>
+        fmincon<br>
+          - 'trust-region-reflective' algorithm <br>
+          - 'interior-point' algorithm <br>
     </td>
   </tr>
   <tr>
@@ -141,12 +153,12 @@ r = ModelUpdatingObjective(alpha, structModel, expModes, simModes, updatingOpts)
 ### Input Arguments
 #### x - a vector with values of the optimization variables
 #### structModel - a MATLAB structure array with following fields of structural model information:
-|Field Name    |Dimension        |Description                    |
-| ------------ | --------------- | ------------------------------|
-|M0            |N x N            |mass matrix (assumed accurate enough and no need to update in current revision). Here N refers to the number of degrees of freedom of the finite element model|
-|K0            |N x N            |nominal stiffness matrix constructed with nominal parameter values|
-|K_j           |N x N x n_alpha  |influence matrix corresponding to updating variables (Note: the third dimension of K_j should be equal to the number of updating variables). Here n_alpha refers the number of stiffness updating variables|
-|K             |N x N            |stiffness matrix constructed with the current alpha values, using K0 and K_j|
+|Field Name    |Dimension          |Description                    |
+| ------------ | ---------------   | ------------------------------|
+|M0            |N x N              |mass matrix (assumed accurate enough and no need to update in current revision). Here N refers to the number of degrees of freedom of the finite element model|
+|K0            |N x N              |nominal stiffness matrix constructed with nominal parameter values|
+|K_j           |N x N x {n_alpha}  |influence matrix corresponding to updating variables (Note: the length of K_j should be equal to the number of updating variables). Here n_alpha refers the number of stiffness updating variables|
+|K             |N x N              |stiffness matrix constructed with the current alpha values, using K0 and K_j|
 #### expModes - a MATLAB structure array with experimental modal properties for model updating:
 |Field Name    |Dimension        |Description                    |
 | ------------ | --------------- | ------------------------------|

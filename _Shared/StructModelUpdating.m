@@ -108,13 +108,21 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %                 [d_f / d_alpha]' = [(d_f / d_r) * ((d_r / d_alpha)]'
 %          'off': let MATLAB numerically calculate gradient matrix
 %               using finite difference method (default)
+%       toolBox - Optimization toolbox
+%            'lsqnonlin' (default)
+%            'fmincon'
 %       optAlgorithm - optimization algorithm
+%           lsqnonlin
 %            'trust-region-reflective' algorithm
 %            'Levenberg-Marquardt' algorithm (default)
+%           fmincon
+%            'trust-region-reflective' algorithm
+%            'interior-point' algorithm
 %       x0 - initial value for updating variables
-%            formID < 3 - n_alpha x 1 
-%            formID = 3 - (n_alpha + n_unmeas x n_modes) x 1 
+%            formID < 3 - n_alpha x 1
+%            formID = 3 - (n_alpha + n_unmeas x n_modes) x 1
 %            (default: zero vector)
+%
 %
 % Output:
 %   A structure array with following fields:

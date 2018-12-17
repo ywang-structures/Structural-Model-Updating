@@ -22,9 +22,9 @@ structModel.K_j = K_j;
 optimzOpts.tolFun = 1e-10;
 optimzOpts.tolX = 1e-10;
 optimzOpts.toolBox  = 'lsqnonlin';
-optimzOpts.optAlgorithm = 'Levenberg-Marquardt';
-optimzOpts.gradSel = 'on';
-optimzOpts.maxIter = 1e4;
+optimzOpts.optAlgorithm = 'trust-region-reflective';
+optimzOpts.gradSel = 'off';
+optimzOpts.maxIter = 1e3;
 optimzOpts.maxFunEvals = 2e4;
 
 
