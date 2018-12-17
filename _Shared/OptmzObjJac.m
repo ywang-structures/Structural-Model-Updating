@@ -147,7 +147,7 @@ if ( updatingOpts.formID ~= 3 )
     simModes.psi = psi(:, matchedModeIndex);
     simModes.Lambda = lambda(matchedModeIndex);
     
-    if( updatingOpts.formID < 2.3 || updatingOpts.formID >= 4)
+    if( updatingOpts.formID < 2.3)
         % Normalize mode shape vector so that the maximum entry magnitude = 1.
         % The entry index is denoted as q(i).
         for i = 1 : expModes.n_modes

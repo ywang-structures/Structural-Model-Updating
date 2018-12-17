@@ -292,7 +292,7 @@ if strcmp(optimzOpts.optAlgorithm, 'Levenberg-Marquardt')
     updatingOpts.x_ub = [];
 end
 
-fun = @(x) LsqnonlinObjJac(x, structModel, expModes, updatingOpts,optimzOpts.toolBox);
+fun = @(x) OptmzObjJac(x, structModel, expModes, updatingOpts,optimzOpts.toolBox);
 
 if(strcmp(optimzOpts.toolBox,'lsqnonlin'))
     options = optimoptions( 'lsqnonlin', 'tolFun', optimzOpts.tolFun, 'tolX', optimzOpts.tolX,...
