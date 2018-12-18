@@ -127,8 +127,8 @@ for i = 1 : n_modes
             % The maximum entry of Psi_m is normalized to 1
             P_i = setdiff(1 : N, expModes.q(i));
             % Cross out q_i-th row in B and b, and q_i-th column in B
-            B = B(P_i, P_i);
-            b = b(P_i);
+            B = sparse(B(P_i, P_i));
+            b = sparse(b(P_i));
             dPsi_dAlpha_j(P_i) = B \ b;
             Q_i = P_i(1 : n_meas - 1);
             % The q_i-th entry of dPsi_m remains as 0 from initialization
