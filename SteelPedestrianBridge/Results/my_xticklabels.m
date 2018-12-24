@@ -87,5 +87,5 @@ if needmove>0;
 end
 
 set(Ha,'Units','normalized')
-set(ht,'Units','normalized','FontSize',10.5)
-set(gca,'FontSize',10.5);
+set(ht,'Units','normalized','FontSize',12)
+set(gca,'FontSize',12);

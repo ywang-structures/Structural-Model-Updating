@@ -11,7 +11,6 @@ for j = 1 : 12
     end
 end
 
-FZ = 10.5;
 grid on
 
 ylabel('Relative error \fontname{Times New Roman}{\ite_i}(%)','fontsize',FZ)
@@ -20,8 +19,11 @@ xtl = {'{\itE}_1','{\itE}_2','{\itE}_3','{\itE}_4','{\itE}_5','{\itE}_6',...
 
 h = my_xticklabels(gca,1:12,xtl);
 
-legend('Case 1(a)')
-text(0.2,24,'Case 1(a), Avg. Err. = 8.38%','Fontsize',FZ)
+lgd = legend('Case 1(a)');
+set(lgd,'fontsize',FZ);
+set(gca,'fontsize',FZ);
+text(0.2,15,'Case 1(a), Avg. Err. = 4.71%','Fontsize',FZ)
+
 
 
 

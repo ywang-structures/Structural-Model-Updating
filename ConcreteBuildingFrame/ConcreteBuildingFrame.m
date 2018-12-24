@@ -22,10 +22,10 @@ structModel.K_j = K_j;
 optimzOpts.tolFun = 1e-10;
 optimzOpts.tolX = 1e-10;
 optimzOpts.toolBox  = 'lsqnonlin';
-optimzOpts.optAlgorithm = 'trust-region-reflective';
-optimzOpts.gradSel = 'off';
+optimzOpts.optAlgorithm = 'Levenberg-Marquardt';
+optimzOpts.gradSel = 'on';
 optimzOpts.maxIter = 1e3;
-optimzOpts.maxFunEvals = 2e4;
+optimzOpts.maxFunEvals = 12e4;
 
 
 %% Simulate "experimental data"
@@ -50,7 +50,7 @@ expModes.psiWeights = ones(n_modes,1);
 
 
 %% Model updating parameter
-updatingOpts.formID = 2.0;       % 1: Modal property diff (MAC) ;
+updatingOpts.formID = 3.0;       % 1: Modal property diff (MAC) ;
                                  % 2: Modal property diff (V_mDiff);
 updatingOpts.modeMatch = 2;      % 1: Without forced matching;
                                  % 2: With forced matching;
