@@ -23,9 +23,9 @@ lgd = legend('Case 2(a)','Case 2(b)');
 set(lgd,'fontsize',FZ);
 set(gca,'fontsize',FZ);
 
-text(0.2,4.7e-11,'Case 2(a), Avg. Err. = 1.07\times10^{-11}%','Fontsize',FZ)
-text(0.2,4.1e-11,'Case 2(b), Avg. Err. = 1.10\times10^{-11}%','Fontsize',FZ)
-ylim([0,5e-11])
+text(0.2,4.7e-11,'Case 2(a), Avg. Err. = 5.98\times10^{-12}%','Fontsize',FZ)
+text(0.2,4.1e-11,'Case 2(b), Avg. Err. = 1.42\times10^{-11}%','Fontsize',FZ)
+ylim([0,6e-11])
 
 
 
