@@ -9,7 +9,7 @@ function [r] = ObjFuncMDRLsqnonlin(x,structModel,expModes)
 % Revision: 1.0
 %
 % For implementation with MATLAB lsqnonlin, this function calculates
-% the objective residual vector for the modal dynamic residue approach.
+% the objective residual vector for the modal dynamic residual approach.
 %
 % Note: this function only intends to update the stiffness matrix
 % 
@@ -36,7 +36,7 @@ function [r] = ObjFuncMDRLsqnonlin(x,structModel,expModes)
 %       psiExp (n_meas x n_modes) - experimental mode shape vector at
 %          measured DOFs.Here n_meas refers to the number of measured DOFs 
 %       measDOFs (n_meas x 1) - measured DOFs  
-%       resWeights (n_modes x 1) - weighting factor for residue
+%       resWeights (n_modes x 1) - weighting factor for residual
 
 % Output:
 % 	r: the objective residual vector r(x)
