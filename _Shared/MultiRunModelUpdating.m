@@ -83,6 +83,28 @@ while(runNum <= numRuns)
     load( filename );
     alpha0(:,runNum) = updatingOpts.x_lb + ...
             (updatingOpts.x_ub - updatingOpts.x_lb) .* rand(n_x, 1);
+    
+    % For modal dynamic residual approach
+    if(updatingOpts.formID == 3)
+        K_ini = K0;
+        for i = 1 : n_alpha
+            K_ini = K_ini + alpha0(i, runNum) * K_j_(:,:,i);
+        end
+        [psiSim,lambdaSim] = eigs(K_ini,M0,n_modes,'sm');
+        [lambdaSim,dummyInd] = sort((diag(lambdaSim)),'ascend') ;
+        lambdaSim = lambdaSim(modeIndex);
+        psiSim = psiSim(:,dummyInd(modeIndex));
+        psiSim_m = psiSim(measDOFs,:);
+        psiSim_u = psiSim(unmeasDOFs,:);
+        % Normalize the mode shape vectors by maximum entry
+        for i = 1:n_modes
+            [~,index] = max(abs(psiSim_m(:,i)));
+            psiSim_u(:,i) = psiSim_u(:,i) / psiSim_m(index,i);
+        end
+        alpha0(n_alpha + 1 : end, runNum) = reshape(psiSim_u, ...
+            length(unmeasDOFs) * n_modes, 1);
+    end
+    
     optimzOpts.x0 = alpha0(:, runNum);
     updtResults = StructModelUpdating(structModel, expModes, updatingOpts, optimzOpts);
     alpha(:,runNum) = updtResults.xOpt;
