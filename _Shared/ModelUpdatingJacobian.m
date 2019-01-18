@@ -82,7 +82,7 @@ switch updatingOpts.formID
     case 2.5
         jac = JacMPDLsqnonlin(structModel, expModes, simModes, 2, 2, 2);
     case 3.0
-        jac = JacMDR(x, structModel, expModes);
+        jac = JacMDRLsqnonlin(x, structModel, expModes);
     otherwise
         error('Wrong objective option!');
 end

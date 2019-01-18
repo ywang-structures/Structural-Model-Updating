@@ -88,7 +88,7 @@ while(runNum <= numRuns)
     if(updatingOpts.formID == 3)
         K_ini = K0;
         for i = 1 : n_alpha
-            K_ini = K_ini + alpha0(i, runNum) * K_j_(:,:,i);
+            K_ini = K_ini + alpha0(i, runNum) * K_j{i};
         end
         [psiSim,lambdaSim] = eigs(K_ini,M0,n_modes,'sm');
         [lambdaSim,dummyInd] = sort((diag(lambdaSim)),'ascend') ;
