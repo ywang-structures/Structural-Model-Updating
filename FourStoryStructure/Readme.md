@@ -1,3 +1,3 @@
 A four-story shear frame structure is simulated. In the initial model, the nominal weight and inter-story stiffness values of all floors are set as 12.060 lb and 10 lbf/in, respectively. To construct an “as-built” structure, the stiffness value of the fourth story is reduced by 10% to 9 lbf/in, as shown in the figure below. Modal properties of the “as-built” structure are directly used as “experimental” modal properties. It is assumed that only the first three floors are instrumented with sensors and only the first mode is “measured” and available for model updating.
 
-<img src="https://github.com/ywang-structures/Structural-Model-Updating/blob/master/FourStoryStructure/Figure/Four-story%20structure%20simulation.png?raw=true" width="200" height="400" />
+<img src="https://github.com/ywang-structures/Structural-Model-Updating/blob/master/FourStoryStructure/Figure/Four-story%20structure%20simulation.png?raw=true" width="229" height="271" />
