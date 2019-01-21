@@ -82,7 +82,7 @@ optimzOpts.maxFunEvals = 3e5;
 
 
 %% Model updating parameter
-updatingOpts.formID = 2.0;       % 1: Modal property diff (MAC) ;
+updatingOpts.formID = 3.0;       % 1: Modal property diff (MAC) ;
                                  % 2: Modal property diff (V_mDiff);
 updatingOpts.modeMatch = 2;      % 1: Without forced matching;
                                  % 2: With forced matching;
