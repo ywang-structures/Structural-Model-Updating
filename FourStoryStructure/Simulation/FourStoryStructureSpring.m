@@ -112,7 +112,7 @@ end
 expModes.resWeights = ones(n_modes,1);
 
 %% MultiStart optimization
-numRuns = 1000;
+numRuns = 10;
 randSeed = 2;
 filename = ['Sim_form' num2str(updatingOpts.formID) '_JAC' optimzOpts.gradSel '_' optimzOpts.optAlgorithm '.mat'];
 

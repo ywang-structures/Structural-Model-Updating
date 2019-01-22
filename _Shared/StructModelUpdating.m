@@ -46,12 +46,21 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %       lambdaWeights (n_modes x 1) - weighting factor for eigenvalue
 %       psiWeights (n_modes x 1) - weighting factor for eigenvector
 %
-%   updatingOpts - a MATLAB structure array with model updating options:
+%   updatingOpts - a structure array with model updating options:
 %       formID - formulation ID number (default: 1)
-%           1: Case 1 - conventional modal property difference
-%              formulation using MAC values
-%           2: Case 2 - modal property difference formulation with
-%             eigenvector difference formulation
+%          Case 1 - conventional modal property difference formulation using MAC values
+%            1.0: eigenvalue difference, normalize eigenvecotr maximum entry equal to 1
+%            1.1: angular frequency difference (rad/s), normalize eigenvecotr qi-th entry equal to 1
+%            1.2: ordinary frequency differnce (Hz), normalize eigenvecotr qi-th entry equal to 1
+%          Case 2 - modal property difference formulation with eigenvector difference formulation
+%            2.0: eigenvalue difference, normalize eigenvecotr maximum entry equal to 1
+%            2.1: angular frequency difference (rad/s), normalize eigenvecotr qi-th entry equal to 1
+%            2.2: ordinary frequency differnce (Hz), normalize eigenvecotr qi-th entry equal to 1
+%            2.3: eigenvalue difference, normalize eigenvecotr norm equal to 1
+%            2.4: angular frequency difference (rad/s), normalize eigenvecotr norm equal to 1
+%            2.5: ordinary frequency differnce (Hz), normalize eigenvecotr norm equal to 1
+%          Case 3 - modal dynamic residual formulation
+%            3.0: eigenvalue difference, normalize eigenvecotr maximum entry equal to 1
 %       modeMatch - Option for the matching method between simulated and
 %       experimental modes (default: 1)
 %           1: Match by the MAC value between the pair of simulated and
@@ -269,8 +278,11 @@ end
 
 if( (updatingOpts.formID >= 2 && updatingOpts.formID < 3) || updatingOpts.formID >= 5) 
     if(size(expModes.psiWeights,1) <  expModes.n_meas)
-        expModes.psiWeights =  expModes.psiWeights' .*...
-                                 ones(expModes.n_meas, expModes.n_modes);
+        psiWeights = expModes.psiWeights';
+        expModes.psiWeights = zeros(expModes.n_meas, expModes.n_modes);
+        for i = 1:expModes.n_meas
+            expModes.psiWeights(i,:) =  psiWeights .* ones(1, expModes.n_modes);
+        end
     end
     
 end
@@ -305,7 +317,7 @@ if(strcmp(optimzOpts.toolBox,'lsqnonlin'))
     % If the bounds are not empty, MATLAB forces to use
     % trust-region-reflective algorithm.
     [updtRslts.xOpt, updtRslts.fvalOpt, updtRslts.residual, updtRslts.exitFlag, ...
-        updtRslts.lsqnOutput, ~, Jac_temp] = lsqnonlin( fun, optimzOpts.x0, ...
+        updtRslts.output, ~, Jac_temp] = lsqnonlin( fun, optimzOpts.x0, ...
         updatingOpts.x_lb, updatingOpts.x_ub, options );
     updtRslts.gradient = 2 * full(Jac_temp)' * updtRslts.residual;
 elseif(strcmp(optimzOpts.toolBox,'fmincon'))
@@ -317,6 +329,6 @@ elseif(strcmp(optimzOpts.toolBox,'fmincon'))
     options = optimoptions( 'fmincon', 'tolFun', optimzOpts.tolFun, 'tolX', optimzOpts.tolX,...
         'Algorithm', optimzOpts.optAlgorithm, 'Disp', 'iter', 'SpecifyObjectiveGradient',optimzOpts.gradSel,...
         maxIterName, optimzOpts.maxIter, maxFunName, optimzOpts.maxFunEvals );
-    [updtRslts.xOpt, updtRslts.fvalOpt, updtRslts.exitFlag, updtRslts.fmcnOutput,~,updtRslts.gradient] = fmincon( fun, optimzOpts.x0,[],[],[],[], ...
+    [updtRslts.xOpt, updtRslts.fvalOpt, updtRslts.exitFlag, updtRslts.output,~,updtRslts.gradient] = fmincon( fun, optimzOpts.x0,[],[],[],[], ...
         updatingOpts.x_lb, updatingOpts.x_ub,[], options );
 end

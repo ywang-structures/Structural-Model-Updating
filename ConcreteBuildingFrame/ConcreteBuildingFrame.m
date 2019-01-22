@@ -45,8 +45,12 @@ end
 expModes.lambdaExp = lambdaExp;
 expModes.psiExp = psi_m;
 expModes.measDOFs = measDOFs;
+unmeasDOFs = setdiff(1 : N, measDOFs);
+num_measDOFs = length(measDOFs);
+num_unmeasDOFs = length(unmeasDOFs);
 expModes.lambdaWeights = ones(n_modes,1);
 expModes.psiWeights = ones(n_modes,1);
+expModes.resWeights = ones(n_modes,1);
 
 
 %% Model updating parameter
@@ -55,11 +59,18 @@ updatingOpts.formID = 3.0;       % 1: Modal property diff (MAC) ;
 updatingOpts.modeMatch = 2;      % 1: Without forced matching;
                                  % 2: With forced matching;
 updatingOpts.simModesForExpMatch = modeIndex;
-updatingOpts.x_lb = -ones(n_alpha,1);
-updatingOpts.x_ub =  ones(n_alpha,1);
+if(updatingOpts.formID == 3)
+    updatingOpts.x_lb = [-ones(n_alpha,1); -2 * ones(num_unmeasDOFs * n_modes,1)];
+    updatingOpts.x_ub =  [ones(n_alpha,1);2 * ones(num_unmeasDOFs * n_modes,1)];
+    
+else
+    
+    updatingOpts.x_lb = -ones(n_alpha,1);
+    updatingOpts.x_ub =  ones(n_alpha,1);
+end
 
 %% MultiStart optimization
-numRuns = 100;
+numRuns = 10;
 randSeed = 3;
 filename = ['ConcBuildFrm_form' num2str(updatingOpts.formID) '_JAC' optimzOpts.gradSel '_' optimzOpts.optAlgorithm '.mat'];
 

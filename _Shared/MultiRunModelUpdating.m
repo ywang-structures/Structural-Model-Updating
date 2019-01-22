@@ -111,6 +111,7 @@ while(runNum <= numRuns)
     fval(runNum) = updtResults.fvalOpt;
     exit_flag(runNum) = updtResults.exitFlag;
     gradient(:,runNum) = updtResults.gradient;
+    output(runNum) = updtResults.output;
     
     % Decide whether the results are in-bounds feasible; if not, discard
     % the results and re-run at another randomized starting point.
@@ -120,7 +121,7 @@ while(runNum <= numRuns)
         fprintf(1, 'Successfully found a solution point within bounds.\n');
         t(runNum) = toc;
         eval(['save ' filename ' alpha alpha0 fval exit_flag gradient t ' ...
-            't_waste structModel expModes updatingOpts optimzOpts']);
+            't_waste structModel expModes updatingOpts optimzOpts output']);
         runNum = runNum + 1;
     else
         % Some result entries are out of bounds.
@@ -128,7 +129,7 @@ while(runNum <= numRuns)
             'Restart now from next random starting point.\n']);
         t_waste(numWasteRuns) = toc;
         eval(['save ' filename ' alpha alpha0 fval exit_flag gradient t ' ...
-            't_waste structModel expModes updatingOpts optimzOpts']);
+            't_waste structModel expModes updatingOpts optimzOpts output']);
         numWasteRuns = numWasteRuns + 1;
     end
 end

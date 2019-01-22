@@ -117,31 +117,76 @@ end
 % The 3rd dimension corresponds to i in Psi_i^m -- the mode index
 dPsi_m = zeros(n_meas, n_alpha, n_modes);
 for i = 1 : n_modes
-    for j = 1 : n_alpha
-        dPsi_dAlpha_j = zeros(N, 1);
-        B = structModel.K - simModes.Lambda(i) * structModel.M0;
-        b = dLambda(i,j) * structModel.M0 * simModes.psi(:, i) -...
-            structModel.K_j{j} * simModes.psi(:, i);
+    dPsi_dAlpha_j = zeros(N, 1);
+    B = sparse( structModel.K - simModes.Lambda(i) * structModel.M0 );
+    
+    if (normOpt == 1)
+        % The maximum entry of Psi_m is normalized to 1
+        P_i = setdiff(1 : N, expModes.q(i));
+        Q_i = P_i(1 : n_meas - 1);
+        % Cross out q_i-th row in B and b, and q_i-th column in B
+        B = B(P_i, P_i);
+        % Accommodate different variable names in different MATLAB versions.
+        vers_temp = version( '-release' );
+        MAT_version = str2num( vers_temp(1 : 4) );
+        if (MAT_version >= 2017)
+            % factorization
+            dcompB = decomposition(B);
+        else
+            % LU factorization
+            [L,U,pp,qq,dgsB] = lu(B);
+        end
         
-        if (normOpt == 1)
-            % The maximum entry of Psi_m is normalized to 1
-            P_i = setdiff(1 : N, expModes.q(i));
-            % Cross out q_i-th row in B and b, and q_i-th column in B
-            B = sparse(B(P_i, P_i));
+        for j = 1 : n_alpha
+            b = dLambda(i,j) * structModel.M0 * simModes.psi(:, i) -...
+                structModel.K_j{j} * simModes.psi(:, i);
             b = sparse(b(P_i));
-            dPsi_dAlpha_j(P_i) = B \ b;
-            Q_i = P_i(1 : n_meas - 1);
+            if (MAT_version >= 2017)
+                dPsi_dAlpha_j(P_i) = dcompB \ b;
+            else
+                if ~isempty(dgsB)
+                    % use LU reordering
+                    dPsi_dAlpha_j(P_i) = qq*(U \ (L \ (pp*(dgsB\b))));
+                else
+                    dPsi_dAlpha_j(P_i) = U \ (L \ b(pp));
+                end
+            end
             % The q_i-th entry of dPsi_m remains as 0 from initialization
             dPsi_m(Q_i, j, i) = dPsi_dAlpha_j(Q_i);
-            
+        end
+        
+    else
+        % Length of Psi is normalized to 1.
+        [~, index] = max(abs( simModes.psi(:,i) ));
+        B(:, index) = zeros(N, 1);
+        B(index, :) = zeros(1, N);
+        B(index, index) = 1;
+        % Accommodate different variable names in different MATLAB versions.
+        vers_temp = version( '-release' );
+        MAT_version = str2num( vers_temp(1 : 4) );
+        if (MAT_version >= 2017)
+            % factorization
+            dcompB = decomposition(B); 
         else
-            % Length of Psi is normalized to 1.
-            [~, index] = max(abs( simModes.psi(:,i) ));
-            B(:, index) = zeros(N, 1);
-            B(index, :) = zeros(1, N);
-            B(index, index) = 1;
+            % LU factorization
+            [L,U, pp, qq, dgsB] = lu(B);
+        end
+        
+        for j = 1 : n_alpha
+            b = dLambda(i,j) * structModel.M0 * simModes.psi(:, i) -...
+                structModel.K_j{j} * simModes.psi(:, i);
             b(index) = 0;
-            v = B \ b;
+            b = sparse(b);
+            if (MAT_version >= 2017)
+                v = dcompB \ b;
+            else
+                if ~isempty(dgsB)
+                    % use LU reordering
+                    v = qq*(U \ (L \ (pp*(dgsB\b))));
+                else
+                    v = U \ (L \ b(pp));
+                end
+            end
             % R. B. Nelson, "Simplified calculation of eigenvector
             % derivatives," AIAA journal, vol. 14, pp. 1201-1205, 1976.
             c = -simModes.psi(:,i)' *  v ;
