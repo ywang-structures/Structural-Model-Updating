@@ -1,4 +1,4 @@
-# Structural Model Updating
+# SMU - MATLAB Package for Structural Model Updating
 
 This package provides example MATLAB code and data for finite element model updating of structures. The code offers selection of different updating formulations and optimization algorithms. 
 
@@ -21,7 +21,10 @@ The folder contains example code and data for the updating of a concrete buildin
 The folder contains example code and data for the updating of a steel pedestrian bridge model.
 
 ## Companion Monograph
-Dong, X. and Wang, Y. (2018). ["Formulation and optimization algorithm comparison for the FE model updating of large-scale structures."](http://wang.ce.gatech.edu/sites/default/files/docs/Formulation%20and%20Optimization%20Algorithm%20Comparison%20for%20the%20FE%20Model%20Updating%20of%20Large-Scale%20Structures.pdf)
+X. Dong and Y. Wang (2018). ["Formulation and optimization algorithm comparison for the FE model updating of large-scale structures."](http://wang.ce.gatech.edu/sites/default/files/docs/Formulation%20and%20Optimization%20Algorithm%20Comparison%20for%20the%20FE%20Model%20Updating%20of%20Large-Scale%20Structures.pdf)
+
+## Citing SMU
+Y. Wang, X. Dong, D. Li, and Y. Otsuki. SMU - MATLAB Package for Structural Model Updating. https://github.com/ywang-structures/Structural-Model-Updating, January 2019.
 
 ## Contact
 
