@@ -51,8 +51,6 @@ function [hess] = HessMPD(x, structModel, expModes, updatingOpts)
 %            2.3: eigenvalue difference, normalize eigenvecotr norm equal to 1
 %            2.4: angular frequency difference (rad/s), normalize eigenvecotr norm equal to 1
 %            2.5: ordinary frequency differnce (Hz), normalize eigenvecotr norm equal to 1
-%          Case 3 - modal dynamic residual formulation
-%            3.0: eigenvalue difference, normalize eigenvecotr maximum entry equal to 1
 %
 % Output:
 %   hess: the Hessian matrix of the objective function
@@ -284,7 +282,7 @@ for i = 1 : n_modes
         b_j = dLambda(i,j) * structModel.M0 * simModes.psi(:, i) -...
             structModel.K_j{j} * simModes.psi(:, i);
         % Cross out q_i-th row in B and b, and q_i-th column in B
-        b_j = sparse(b_j(P_i));
+        b_j = sparse(b_j(P_i));        
         if (MAT_version >= 2017)
             dPsi_dAlpha_j(P_i) = dcompB \ b_j;
         else
@@ -316,11 +314,13 @@ for i = 1 : n_modes
             end
             % The q_i-th entry of dPsi_m remains as 0 from initialization           
             dPsi_m_k(Q_i, k, i) = dPsi_dAlpha_k(Q_i);
+     
+            
             
             % eigenvalue second derivative
             ddLambda(k,j,i) = ...
-                (simModes.psi(:,i)' * (structModel.K_j{j} - dLambda(i,j) * structModel.M0 ) * dPsi_dAlpha_k ...
-                + simModes.psi(:,i)' * (structModel.K_j{k} - dLambda(i,k) * structModel.M0 ) * dPsi_dAlpha_j) / modalMass(i);
+                (simModes.psi(:,i)' * (structModel.K_j{j} - dLambda(i,j) * structModel.M0) * dPsi_dAlpha_k ...
+                + simModes.psi(:,i)' * (structModel.K_j{k} - dLambda(i,k) * structModel.M0) * dPsi_dAlpha_j) / modalMass(i);
             
             if eigFreqOpt == 0
                 d_ri_eigFreqTerm(i,j) = - dLambda(i,j) * expModes.lambdaWeights(i) ...
@@ -372,11 +372,15 @@ for i = 1 : n_modes
             * dPsi_m_j(:, :, i);
         jac_r((i - 1) * 2 + 1 : i * 2, :) = [d_ri_eigFreqTerm(i,:); d_ri_MAC];
         
-        dd_ri_MAC = zeros(n_alpha, n_alpha);
+        temp0 = (psiExp' / (psiExp' * psiSim) - psiSim' / norm(psiSim)^2);
+        temp1 = (dPsi_m_k(:, :, i)' * expModes.psiWeights(i) / sqrt(MACValue) * temp0') * temp0 * dPsi_m_j(:, :, i);
+        temp2 = - expModes.psiWeights(i) / sqrt(MACValue)* ...
+                (dPsi_m_k(:, :, i)')* (-psiExp'*psiExp / (psiExp' * psiSim)^2 - 1/norm(psiSim)^2 + 2*psiSim'*psiSim / norm(psiSim)^4)* dPsi_m_j(:, :, i);
+        temp3 = zeros(n_alpha, n_alpha);
         for l = 1 : n_meas
-            temp = (-expModes.psiWeights(i) / sqrt(MACValue)) * (psiExp' / (psiExp' * psiSim) - psiSim' / norm(psiSim)^2);
-            dd_ri_MAC = dd_ri_MAC + temp(l) * ddPsi_m(:, :, l);
+            temp3 = temp3 + (-expModes.psiWeights(i) / sqrt(MACValue)* temp0(l) * ddPsi_m(:, :, l));
         end
+        dd_ri_MAC = temp1 + temp2 + temp3;
         hes_r(:, :, (2 * i - 1)) = dd_ri_eigFreqTerm(:, :, i);
         hes_r(:, :, 2 * i) = dd_ri_MAC;
         
