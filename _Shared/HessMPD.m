@@ -51,8 +51,6 @@ function [hess] = HessMPD(x, structModel, expModes, updatingOpts)
 %            2.3: eigenvalue difference, normalize eigenvecotr norm equal to 1
 %            2.4: angular frequency difference (rad/s), normalize eigenvecotr norm equal to 1
 %            2.5: ordinary frequency differnce (Hz), normalize eigenvecotr norm equal to 1
-%          Case 3 - modal dynamic residual formulation
-%            3.0: eigenvalue difference, normalize eigenvecotr maximum entry equal to 1
 %
 % Output:
 %   hess: the Hessian matrix of the objective function
@@ -374,7 +372,8 @@ for i = 1 : n_modes
         
         dd_ri_MAC = zeros(n_alpha, n_alpha);
         for l = 1 : n_meas
-            temp = (-expModes.psiWeights(i) / sqrt(MACValue)) * (psiExp' / (psiExp' * psiSim) - psiSim' / norm(psiSim)^2);
+            temp = (-expModes.psiWeights(i) / sqrt(MACValue)) * ...
+                (psiExp' / (psiExp' * psiSim) - psiSim' / norm(psiSim)^2);
             dd_ri_MAC = dd_ri_MAC + temp(l) * ddPsi_m(:, :, l);
         end
         hes_r(:, :, (2 * i - 1)) = dd_ri_eigFreqTerm(:, :, i);
