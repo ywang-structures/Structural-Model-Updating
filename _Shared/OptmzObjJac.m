@@ -9,7 +9,7 @@ function [r, jac] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts,optTo
 %       Georgia Institute of Technology
 %       2018
 %
-% Revision: 1.0
+% Revision: 1.1
 %
 % For implementation with different optimization algorithm, this function 
 % calculates the objective residual vector r(x) and returns as the first 
