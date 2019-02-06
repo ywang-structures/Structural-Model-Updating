@@ -1,11 +1,11 @@
 % Script: MultiRunModelUpdating 
 %
-%   Yang Wang, Xinjun Dong, Dan Li
+%   Yang Wang, Xinjun Dong, Dan Li, Yu Otsuki
 %   School of Civil and Environmental Engineering
 %   Georgia Institute of Technology
 %   2018
 %
-% Revision: 1.0
+% Revision: 1.1
 %
 % The script can perform multiple runs of model updating by starting the
 % search from randomized starting points. 
