@@ -11,14 +11,17 @@ This software package for FE model updating offers two modal property difference
 
 ## Contents
 
- “\SMU”
+"\SMU"
 The folder contains shared MATLAB routines for finite element model updating. This folder should be added into MATLAB path prior to running the example model updating code of the two example structures.
 
-“\ConcreteBuildingFrame”
+"Examples\ConcreteBuildingFrame"
 The folder contains example code and data for the updating of a concrete building frame model.
 
-“\SteelPedestrianBridge”
+"Examples\SteelPedestrianBridge"
 The folder contains example code and data for the updating of a steel pedestrian bridge model.
+
+"Examples\FourStoryStructure\"
+The folder contains example code and data for the updating of a four story shear structure model.
 
 ## Companion Monograph
 X. Dong and Y. Wang (2018). ["Formulation and optimization algorithm comparison for the FE model updating of large-scale structures."](https://github.com/ywang-structures/Structural-Model-Updating/blob/master/Formulation%20and%20Optimization%20Algorithm%20Comparison%20for%20the%20FE%20Model%20Updating%20of%20Large-Scale%20Structures.pdf)
