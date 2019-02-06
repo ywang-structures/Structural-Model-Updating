@@ -6,7 +6,7 @@ function [hess] = HessMPD(x, structModel, expModes, updatingOpts)
 %   Georgia Institute of Technology
 %   2018
 %
-% Revision: 1.0
+% Revision: 1.1
 %
 % This function calculates the Hessian matrix for various forms of the 
 % modal property difference approaches.
