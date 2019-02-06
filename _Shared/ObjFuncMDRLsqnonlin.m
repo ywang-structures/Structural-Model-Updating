@@ -6,7 +6,7 @@ function [r] = ObjFuncMDRLsqnonlin(x,structModel,expModes)
 %   Georgia Institute of Technology
 %   2018
 %
-% Revision: 1.0
+% Revision: 1.1
 %
 % For implementation with MATLAB lsqnonlin, this function calculates
 % the objective residual vector for the modal dynamic residual approach.

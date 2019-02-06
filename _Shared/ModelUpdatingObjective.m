@@ -3,12 +3,12 @@ function r = ModelUpdatingObjective(x, structModel, expModes, ...
 % function r = ModelUpdatingObjective(alpha, structModel, expModes, 
 %   simModes, updatingOpts) 
 %
-%   Yang Wang, Xinjun Dong, Dan Li
+%   Yang Wang, Xinjun Dong, Dan Li, Yu Otsuki
 %   School of Civil and Environmental Engineering
 %   Georgia Institute of Technology
 %   2018
 %
-% Revision: 1.0
+% Revision: 1.1
 %
 % This function calculates the objective residuals of the
 % optimization problem for model updating. When MATLAB lsqnonlin solver is

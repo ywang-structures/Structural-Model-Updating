@@ -12,12 +12,12 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %
 % function updtResults = StructModelUpdating (structModel, expModes)
 %
-%   Yang Wang, Xinjun Dong, Dan Li
+%   Yang Wang, Xinjun Dong, Dan Li, Yu Otsuki
 %   School of Civil and Environmental Engineering
 %   Georgia Institute of Technology
 %   2018
 %
-% Revision: 1.0
+% Revision: 1.1
 %
 % This function performs one run of the finite element model updating using
 % frequency domain modal properties. The starting point for this run can be
