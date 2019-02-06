@@ -6,7 +6,7 @@ function [jac] = JacMDRLsqnonlin(x,structModel,expModes)
 %   Georgia Institute of Technology
 %   2018
 %
-% Revision: 1.0
+% Revision: 1.1
 %
 % This function calculates the Jacobian matrix of the objective residual 
 % vector r for the objective function of the modal dynamic residual 
