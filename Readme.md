@@ -11,7 +11,7 @@ This software package for FE model updating offers two modal property difference
 
 ## Contents
 
- “\_Shared”
+ “\SMU”
 The folder contains shared MATLAB routines for finite element model updating. This folder should be added into MATLAB path prior to running the example model updating code of the two example structures.
 
 “\ConcreteBuildingFrame”
