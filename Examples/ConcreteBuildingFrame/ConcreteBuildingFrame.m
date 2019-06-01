@@ -70,7 +70,7 @@ else
 end
 
 %% MultiStart optimization
-numRuns = 10;
+numRuns = 1;
 randSeed = 3;
 filename = ['ConcBuildFrm_form' num2str(updatingOpts.formID) '_JAC' optimzOpts.gradSel '_' optimzOpts.optAlgorithm '.mat'];
 
