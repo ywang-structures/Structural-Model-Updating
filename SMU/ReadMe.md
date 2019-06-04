@@ -35,9 +35,19 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
     <td>formID</td>
     <td>
     	formulation ID number (default: 1) <br>
-        - 1: Case 1 - conventional modal property difference formulation using MAC values <br>
-        - 2: Case 2 - modal property difference formulation with eigenvector difference formulation <br>
-        - 3: Case 3 - modal dynamic residual formulation <br>
+      Case 1 - conventional modal property difference formulation using MAC values <br>
+            &emsp;1.0: eigenvalue difference, normalize eigenvecotr maximum entry equal to 1 <br>
+            &emsp;1.1: angular frequency difference (rad/s), normalize eigenvecotr qi-th entry equal to 1 <br>
+            &emsp;1.2: ordinary frequency differnce (Hz), normalize eigenvecotr qi-th entry equal to 1 <br>
+      Case 2 - modal property difference formulation with eigenvector difference formulation <br>
+            &emsp;2.0: eigenvalue difference, normalize eigenvecotr maximum entry equal to 1 <br>
+            &emsp;2.1: angular frequency difference (rad/s), normalize eigenvecotr qi-th entry equal to 1 <br>
+            &emsp;2.2: ordinary frequency differnce (Hz), normalize eigenvecotr qi-th entry equal to 1 <br>
+            &emsp;2.3: eigenvalue difference, normalize eigenvecotr norm equal to 1 <br>
+            &emsp;2.4: angular frequency difference (rad/s), normalize eigenvecotr norm equal to 1 <br>
+            &emsp;2.5: ordinary frequency differnce (Hz), normalize eigenvecotr norm equal to 1 <br>
+      Case 3 - modal dynamic residual formulation <br>
+            &emsp;3.0: eigenvalue, normalize eigenvecotr maximum entry equal to 1 <br>
     </td>
   </tr>
   <tr>
