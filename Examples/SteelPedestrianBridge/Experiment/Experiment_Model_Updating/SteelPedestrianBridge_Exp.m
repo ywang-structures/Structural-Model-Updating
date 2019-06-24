@@ -15,15 +15,17 @@ structModel.K_j = K_j;
 optimzOpts.tolFun = 1e-10;
 optimzOpts.tolX = 1e-10;
 optimzOpts.tolGrad = 1e-10;
-optimzOpts.toolBox = 'lsqnonlin';
-optimzOpts.optAlgorithm = 'trust-region-reflective';
+% optimzOpts.toolBox = 'lsqnonlin';
+% optimzOpts.optAlgorithm = 'trust-region-reflective';
+optimzOpts.toolBox = 'fmincon';
+optimzOpts.optAlgorithm = 'interior-point';
 
 optimzOpts.gradSel = 'on';
 optimzOpts.maxIter = 1e3;
 optimzOpts.maxFunEvals = 3e3;
 
 %% Model updating parameter
-updatingOpts.formID = 3;       % 1: Modal property diff (MAC) ;
+updatingOpts.formID = 2;       % 1: Modal property diff (MAC) ;
                                % 2: Modal property diff (V_mDiff);
                                % 3: Modal dynamic residual;
                                
@@ -70,7 +72,8 @@ expModes.lambdaWeights = lambdaExp ./ std_lambdaExp(modeIndex);
 
 % Weighitng factor for modal dynamic residual formualation
 if(updatingOpts.formID == 3)
-    expModes.resWeights =  weightLambda .* weightPsi;
+    %     expModes.resWeights =  weightLambda .* weightPsi;
+    expModes.resWeights =  expModes.lambdaWeights .*  expModes.psiWeights;
 end
 
 
