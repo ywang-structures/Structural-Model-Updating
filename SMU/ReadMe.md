@@ -85,7 +85,7 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
   </tr>
 </table>
 
-WARNING: when using Levenberg-Marquardt optimization algorithm in MATLAB, setting the upper and lower bounds of updating variables has no effect because the MATLAB L-M implementation does not accept bounds. The optimization may provide an infeasible out-of-the-bound solution. The user needs to verify the feasibility of the solution.
+WARNING: (1) When using Levenberg-Marquardt optimization algorithm in MATLAB, setting the upper and lower bounds of updating variables has no effect because the MATLAB L-M implementation does not accept bounds. The optimization may provide an infeasible out-of-the-bound solution. The user needs to verify the feasibility of the solution. (2) When using fmincon tool box with interior point method to solve modal dynamic residual formulation, the optimization process becomes quite slow when the number of unmeasured DOFs is large. In this scenario, it is recommended to use lsqnonlin tool box.
 #### optimzOpts - optimization options. The current revision supports MATLAB lsqnonlin function.
 <table>
   <tr>

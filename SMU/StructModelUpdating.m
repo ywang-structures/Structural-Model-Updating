@@ -94,12 +94,16 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %               formID < 3 - n_alpha x 1 (default: [])
 %               formID = 3 - (n_alpha + n_unmeas x n_modes) x 1 (default: [])
 %
-%          WARNING: when using Levenberg-Marquardt optimization algorithm in MATLAB,
-%           setting the upper and lower bounds of updating variables has no
-%           effect because the MATLAB L-M implementation does not accept
-%           bounds. The optimization may provide an infeasible
-%           out-of-the-bound solution. The user needs to verify the
-%           feasibility of the solution.
+%          WARNING: (1) When using Levenberg-Marquardt optimization
+%           algorithm in MATLAB, setting the upper and lower bounds of
+%           updating variables has no effect because the MATLAB L-M
+%           implementation does not accept bounds. The optimization may
+%           provide an infeasible out-of-the-bound solution. The user needs
+%           to verify the feasibility of the solution. (2) When using
+%           fmincon tool box with interior point method to  solve modal
+%           dynamic residual formulation, the optimization  process becomes
+%           quite slow when the number of unmeasured DOFs is large. In this
+%           scenario, it is recommended to use lsqnonlin tool box.
 %
 %   optimzOpts - optimization options. The current revision supports MATLAB
 %          lsqnonlin and fmincon function.
@@ -306,7 +310,7 @@ end
 
 fun = @(x) OptmzObjJac(x, structModel, expModes, updatingOpts,optimzOpts.toolBox);
 
-if(strcmp(optimzOpts.toolBox,'lsqnonlin'))
+if (strcmp(optimzOpts.toolBox, 'lsqnonlin'))
     options = optimoptions( 'lsqnonlin', 'tolFun', optimzOpts.tolFun, 'tolX', optimzOpts.tolX,...
         'Algorithm', optimzOpts.optAlgorithm, 'Disp', 'iter', 'Jacobian', optimzOpts.gradSel,...
         maxIterName, optimzOpts.maxIter, maxFunName, optimzOpts.maxFunEvals );
@@ -320,8 +324,24 @@ if(strcmp(optimzOpts.toolBox,'lsqnonlin'))
         updtRslts.output, ~, Jac_temp] = lsqnonlin( fun, optimzOpts.x0, ...
         updatingOpts.x_lb, updatingOpts.x_ub, options );
     updtRslts.gradient = 2 * full(Jac_temp)' * updtRslts.residual;
-elseif(strcmp(optimzOpts.toolBox,'fmincon'))
-    if(strcmp(optimzOpts.gradSel,'on'))
+    
+elseif (strcmp(optimzOpts.toolBox, 'fmincon'))
+    nvar = length(optimzOpts.x0);
+    if ( strcmp(optimzOpts.optAlgorithm,'interior-point') && nvar >= 1000 )
+        prompt = ['Warning: The number of optimization variables is too large for\n' ...
+            'interior point method in the fmincon toolbox. It is recommended to abort\n'...
+            'and change to the trust-region-reflective algorithm in lsqnonlin toolbox.\n'...
+            '\nWould you like to continue? Y/N [N]:'];
+        userInput = input(prompt, 's');
+        if isempty (userInput)
+            userInput = 'N';
+        end
+        if( upper(userInput) ~= 'Y')
+            error('Program terminates.');
+        end
+    end
+    
+    if(strcmp(optimzOpts.gradSel, 'on'))
         optimzOpts.gradSel = true;
     else
         optimzOpts.gradSel = false;

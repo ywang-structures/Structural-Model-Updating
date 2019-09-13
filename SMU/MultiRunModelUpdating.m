@@ -62,6 +62,23 @@ if (exist(filename, 'file') ~= 2)
 else
     % If the result file exists, pick up from the previous runs that may
     % have been interrupted in the middle.
+    prompt = sprintf(['\nWarning: A mat file ("%s") \n'...
+        'containing results from a previous run exists in the current folder. \n'...
+        'The file may have results from previously finished starting points. \n'...
+        'If you intend for a fresh new run, the file needs to be deleted first.\n'...
+        'Would you like to keep results in the mat file, and continue at the next\n'...
+        'random starting point?\nY/N [Y]: '], filename);
+    userInput = input(prompt, 's');
+    
+    if isempty (userInput)
+        userInput = 'Y';
+    end
+    if( upper(userInput) ~= 'N')
+        fprintf('\nOptimization continues at the next random starting point.\n')
+    else
+        error('\nPlease delete the file "%s" with previous results and run again.\n', filename);
+    end
+    
     load(filename);
     runNum = length(find(t ~= 0)) + 1;
     numWasteRuns = size(t_waste, 2);
