@@ -29,6 +29,9 @@ X. Dong and Y. Wang (2018). ["Formulation and optimization algorithm comparison 
 ## Citing SMU
 Y. Wang, X. Dong, D. Li, and Y. Otsuki. SMU: MATLAB Package for Structural Model Updating, version 1.1. https://github.com/ywang-structures/Structural-Model-Updating, January 2019.
 
+## Acknowledgment
+This research was partially funded by the National Science Foundation (CMMI-1150700 and CMMI-1634483). Any opinions, findings, and conclusions expressed in this publication are those of the authors and do not necessarily reflect the view of the sponsors.
+
 ## Contact
 
 Yang Wang, Ph.D.\
