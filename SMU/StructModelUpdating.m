@@ -110,6 +110,12 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %       maxIter - maximum iterations of optimization process (default: 400)
 %       maxFunEvals - maximum number of function evaluations
 %           allowed (default: 100 x n_alpha)
+%
+%           RECOMMENDATION: To avoid exiting from optimization process too
+%            early, recommended maxFunEvals values are:
+%               - maxIter x 2 if gradSel is 'on'
+%               - maxIter x (n_alpha + 1) if gradSel is 'off'
+%
 %       tolFun - termination tolerance on the value change of the objective
 %           function between two iterations (default: 1e-6)
 %       tolX - termination tolerance on the value change of the optimization
