@@ -1,6 +1,6 @@
 function updtRslts = StructModelUpdating (structModel, expModes, ...
     updatingOpts, optimzOpts)
- 
+
 % function updtResults = StructModelUpdating (structModel, expModes, ...
 %   updatingOpts, optimzOpts)
 %
@@ -108,13 +108,16 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %   optimzOpts - optimization options. The current revision supports MATLAB
 %          lsqnonlin and fmincon function.
 %       maxIter - maximum iterations of optimization process (default: 400)
-%       maxFunEvals - maximum number of function evaluations
-%           allowed (default: 100 x n_alpha)
-%
-%           RECOMMENDATION: To avoid exiting from optimization process too
-%            early, recommended maxFunEvals values are:
-%               - maxIter x 2 if gradSel is 'on'
-%               - maxIter x (n_alpha + 1) if gradSel is 'off'
+%       maxFunEvals - maximum number of function evaluations allowed.
+%          Default values are set as below such that a long-running
+%          optimization process usually reaches the maximum number of
+%          iterations (maxIter) before reaching the maximum number of
+%          function evaluations (maxFunEvals).
+%             maxIter x 2              if gradSel is 'on' (analytical Jacobian)
+%             maxIter x (n_x + 1)      if gradSel is 'off' (numerical Jacobian)
+%          In other words, if a long-running optimization process does not
+%          converge, maxIter is usually the controlling criteria for
+%          exiting the process.
 %
 %       tolFun - termination tolerance on the value change of the objective
 %           function between two iterations (default: 1e-6)
@@ -215,17 +218,25 @@ end
 
 if(nargin < 4)
     % Default optimization options if not provided
-    optimzOpts = struct ('maxIter', 400, 'maxFunEvals', 100 * n_x, ...
+    optimzOpts = struct ('maxIter', 400, 'maxFunEvals', 400 * (n_x + 1), ...
         'tolFun', 1e-6, 'tolX', 1e-6, 'gradSel', 'off',...
         'optAlgorithm', 'Levenberg-Marquardt', 'x0', zeros(n_x, 1));
 else
     % Default optimization options
+    if (~isfield(optimzOpts, 'gradSel'))
+        optimzOpts.gradSel = 'off';
+    end
+    
     if (~isfield(optimzOpts, 'maxIter'))
         optimzOpts.maxIter = 400;
     end
     
     if (~isfield(optimzOpts, 'maxFunEvals'))
-        optimzOpts.maxFunEvals = 100 * n_x;
+        if (strcmp(optimzOpts.gradSel, 'on'))
+            optimzOpts.maxFunEvals = optimzOpts.maxIter * 2;
+        else
+            optimzOpts.maxFunEvals = optimzOpts.maxIter * (n_x + 1);
+        end
     end
     
     if (~isfield(optimzOpts, 'tolFun'))
@@ -236,19 +247,15 @@ else
         optimzOpts.tolX = 1e-6;
     end
     
-    if (~isfield(optimzOpts, 'gradSel'))
-        optimzOpts.gradSel = 'off';
-    end
-    
     if (~isfield(optimzOpts, 'optAlgorithm'))
         optimzOpts.optAlgorithm = 'Levenberg-Marquardt';
     end
     
-     if (~isfield(optimzOpts, 'toolBox'))
+    if (~isfield(optimzOpts, 'toolBox'))
         optimzOpts.toolBox = 'lsqnonlin';
     end
     
-        
+    
     if (~isfield(optimzOpts, 'x0'))
         optimzOpts.x0 = zeros(n_x, 1);
     end
@@ -286,7 +293,7 @@ else
     end
 end
 
-if( (updatingOpts.formID >= 2 && updatingOpts.formID < 3) || updatingOpts.formID >= 5) 
+if( (updatingOpts.formID >= 2 && updatingOpts.formID < 3) || updatingOpts.formID >= 5)
     if(size(expModes.psiWeights,1) <  expModes.n_meas)
         psiWeights = expModes.psiWeights';
         expModes.psiWeights = zeros(expModes.n_meas, expModes.n_modes);
