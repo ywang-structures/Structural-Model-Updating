@@ -120,9 +120,9 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %          exiting the process.
 %
 %       tolFun - termination tolerance on the value change of the objective
-%           function between two iterations (default: 1e-6)
+%           function between two iterations (default: 1e-14)
 %       tolX - termination tolerance on the value change of the optimization
-%           vector variables between two iterations (default: 1e-6)
+%           vector variables between two iterations (default: 1e-14)
 %       gradSel - selection for gradient calculation
 %          'on': calculate search gradient with user-defined Jacobian
 %             matrix. With r representing the residual vector whose length
@@ -219,7 +219,7 @@ end
 if(nargin < 4)
     % Default optimization options if not provided
     optimzOpts = struct ('maxIter', 400, 'maxFunEvals', 400 * (n_x + 1), ...
-        'tolFun', 1e-6, 'tolX', 1e-6, 'gradSel', 'off',...
+        'tolFun', 1e-14, 'tolX', 1e-14, 'gradSel', 'off',...
         'optAlgorithm', 'Levenberg-Marquardt', 'x0', zeros(n_x, 1));
 else
     % Default optimization options
@@ -240,11 +240,11 @@ else
     end
     
     if (~isfield(optimzOpts, 'tolFun'))
-        optimzOpts.tolFun = 1e-6;
+        optimzOpts.tolFun = 1e-14;
     end
     
     if (~isfield(optimzOpts, 'tolX'))
-        optimzOpts.tolX = 1e-6;
+        optimzOpts.tolX = 1e-14;
     end
     
     if (~isfield(optimzOpts, 'optAlgorithm'))
