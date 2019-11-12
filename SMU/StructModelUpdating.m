@@ -128,8 +128,9 @@ function updtRslts = StructModelUpdating (structModel, expModes, ...
 %             matrix. With r representing the residual vector whose length
 %             square is the objective function value, The gradient
 %                 [d_f / d_alpha]' = [(d_f / d_r) * ((d_r / d_alpha)]'
+%             (default)
 %          'off': let MATLAB numerically calculate gradient matrix
-%               using finite difference method (default)
+%               using finite difference method 
 %       toolBox - Optimization toolbox
 %            'lsqnonlin' (default)
 %            'fmincon'
@@ -224,7 +225,7 @@ if(nargin < 4)
 else
     % Default optimization options
     if (~isfield(optimzOpts, 'gradSel'))
-        optimzOpts.gradSel = 'off';
+        optimzOpts.gradSel = 'on';
     end
     
     if (~isfield(optimzOpts, 'maxIter'))
