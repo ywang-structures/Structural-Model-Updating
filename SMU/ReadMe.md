@@ -98,22 +98,22 @@ WARNING: (1) When using Levenberg-Marquardt optimization algorithm in MATLAB, se
   </tr>
   <tr>
     <td>maxFunEvals</td>
-    <td>maximum number of function evaluations allowed (default: 100 x n_alpha)</td>
+    <td>maximum number of function evaluations allowed. Default values are set as below such that a long-running optimization process usually reaches the maximum number of iterations (maxIter) before reaching the maximum number of function evaluations (maxFunEvals). </td>
   </tr>
   <tr>
   	<td>tolFun</td>
-    <td>termination tolerance on the value change of the objective function between two iterations (default: 1e-6)</td>
+    <td>termination tolerance on the value change of the objective function between two iterations (default: 1e-14)</td>
   </tr>
   <tr>
     <td>tolX</td>
-    <td>termination tolerance on the value change of the optimization vector variables between two iterations (default: 1e-6)</td>
+    <td>termination tolerance on the value change of the optimization vector variables between two iterations (default: 1e-14)</td>
   </tr>
   <tr>
     <td>gradSel</td>
     <td>
       selection for gradient calculation <br>
-      - 'on': calculate search gradient with user-defined Jacobian matrix. With r representing the residual vector whose length square is the objective function value, The gradient [d_f / d_alpha]' = [(d_f / d_r) * ((d_r / d_alpha)]' <br>
-      - 'off': let MATLAB numerically calculate gradient matrix using finite difference method (default)
+      - 'on': calculate search gradient with user-defined Jacobian matrix. With r representing the residual vector whose length square is the objective function value, The gradient [d_f / d_alpha]' = [(d_f / d_r) * ((d_r / d_alpha)]' (default) <br>
+      - 'off': let MATLAB numerically calculate gradient matrix using finite difference method 
     </td>
   </tr>
   <tr>
