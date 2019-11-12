@@ -98,7 +98,7 @@ WARNING: (1) When using Levenberg-Marquardt optimization algorithm in MATLAB, se
   </tr>
   <tr>
     <td>maxFunEvals</td>
-    <td>maximum number of function evaluations allowed. Default values are set as below such that a long-running optimization process usually reaches the maximum number of iterations (maxIter) before reaching the maximum number of function evaluations (maxFunEvals). </td>
+    <td>maximum number of function evaluations allowed. Default values are set as below such that a long-running optimization process usually reaches the maximum number of iterations (maxIter) before reaching the maximum number of function evaluations (maxFunEvals). <br> maxIter x 2  if gradSel is 'on' (analytical Jacobian) <br> maxIter x (n_x + 1)      if gradSel is 'off' (numerical Jacobian) <br> In other words, if a long-running optimization process does not converge, maxIter is usually the controlling criteria for exiting the process.</td>
   </tr>
   <tr>
   	<td>tolFun</td>
