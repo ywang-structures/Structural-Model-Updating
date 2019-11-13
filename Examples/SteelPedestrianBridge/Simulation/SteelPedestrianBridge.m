@@ -57,6 +57,7 @@ expModes.resWeights = ones(n_modes,1);
 %% Model updating parameter
 updatingOpts.formID = 3.0;       % 1: Modal property diff (MAC) ;
                                  % 2: Modal property diff (V_mDiff);
+                                 % 3: Modal dynamic residual;
 updatingOpts.modeMatch = 2;      % 1: Without forced matching;
                                  % 2: With forced matching;
 updatingOpts.simModesForExpMatch = modeIndex;
