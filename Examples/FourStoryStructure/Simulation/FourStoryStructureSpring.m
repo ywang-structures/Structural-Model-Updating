@@ -72,8 +72,6 @@ structModel.K0 = K0;
 structModel.K_j = K_j;
 
 %% Optimization structure parameter;
-optimzOpts.tolFun = eps^2;
-optimzOpts.tolX = eps^2;
 optimzOpts.toolBox = 'fmincon';
 optimzOpts.optAlgorithm = 'interior-point';
 optimzOpts.gradSel = 'on';
@@ -84,6 +82,7 @@ optimzOpts.maxFunEvals = 3e5;
 %% Model updating parameter
 updatingOpts.formID = 3.0;       % 1: Modal property diff (MAC) ;
                                  % 2: Modal property diff (V_mDiff);
+                                 % 3: Modal dynamic residual;
 updatingOpts.modeMatch = 2;      % 1: Without forced matching;
                                  % 2: With forced matching;
 updatingOpts.simModesForExpMatch = modeIndex;
