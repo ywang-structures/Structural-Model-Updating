@@ -102,10 +102,10 @@ expModes.n_modes = length( expModes.lambdaExp ); % # of available exp-modes
 % Create simModes variable to contain simulated modal properties that
 % will be used to match experimental modes when evaluating objective
 % function of Jacobians.
-%   Lambda (n_modes x 1) - simulated eigenvalue
+%   lambda (n_modes x 1) - simulated eigenvalue
 %   psi_m  (n_meas x n_modes) - simulated mode shape vector at measured DOFs
 %   psi    (N x n_modes) - simulated mode shape vector at all DOFs
-simModes = struct('psi_m',[],'psi',[],'Lambda',[]);
+simModes = struct('psi_m',[],'psi',[],'lambda',[]);
 % Add a new field K into structModel, which represents the stiffness matrix
 % with current alpha values.
 n_alpha = length(structModel.K_j);
@@ -143,7 +143,7 @@ if ( updatingOpts.formID ~= 3 )
     
     simModes.psi_m = psi_m(:, matchedModeIndex);
     simModes.psi = psi(:, matchedModeIndex);
-    simModes.Lambda = lambda(matchedModeIndex);
+    simModes.lambda = lambda(matchedModeIndex);
     
     if( updatingOpts.formID < 2.3)
         % Normalize mode shape vector so that the maximum entry magnitude = 1.

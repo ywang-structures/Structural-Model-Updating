@@ -25,7 +25,7 @@ function [r] =  ObjFuncMPDLsqnonlin(expModes, simModes, eigFreqOpt, normOpt, obj
 %
 %   simModes - a MATLAB structure array with simulated modal properties for
 %     model updating:
-%       Lambda (n_modes x 1) - simulated eigenvalue
+%       lambda (n_modes x 1) - simulated eigenvalue
 %       psi_m  (n_meas x n_modes) - simulated mode shape vector at
 %          measured DOFs
 %       psi    (N x n_modes) - simulated mode shape vector at all DOFs
@@ -46,7 +46,7 @@ function [r] =  ObjFuncMPDLsqnonlin(expModes, simModes, eigFreqOpt, normOpt, obj
 % Output:
 %	r: the objective residual vector r(x)
 
-omegaSim = sqrt( simModes.Lambda );  % simulated angular frequency
+omegaSim = sqrt( simModes.lambda );  % simulated angular frequency
 omegaExp = sqrt( expModes.lambdaExp );% experimental angular frequency
 freqSim = omegaSim / 2 / pi;
 freqExp = omegaExp / 2 / pi;
@@ -67,7 +67,7 @@ end
 for i = 1 : n_modes
     if (eigFreqOpt == 0)
         eigFreqTerm = expModes.lambdaWeights(i) * ...
-            (expModes.lambdaExp(i) - simModes.Lambda(i)) / expModes.lambdaExp(i);
+            (expModes.lambdaExp(i) - simModes.lambda(i)) / expModes.lambdaExp(i);
     elseif (eigFreqOpt == 1)
         eigFreqTerm = expModes.lambdaWeights(i) * (omegaExp(i) - omegaSim(i)) / omegaExp(i);
     elseif (eigFreqOpt == 2)

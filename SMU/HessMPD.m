@@ -140,12 +140,12 @@ if ( updatingOpts.formID ~= 3 )
     % Create simModes variable to contain simulated modal properties that
     % will be used to match experimental modes when evaluating objective
     % function of Jacobians.
-    %   Lambda (n_modes x 1) - simulated eigenvalue
+    %   lambda (n_modes x 1) - simulated eigenvalue
     %   psi_m  (n_meas x n_modes) - simulated mode shape vector at measured DOFs
     %   psi    (N x n_modes) - simulated mode shape vector at all DOFs
     simModes.psi_m = psi_m(:, matchedModeIndex);
     simModes.psi = psi(:, matchedModeIndex);
-    simModes.Lambda = lambda(matchedModeIndex);
+    simModes.lambda = lambda(matchedModeIndex);
 
     for i = 1 : expModes.n_modes
         if(~isempty(find(expModes.psiExp(:,i) == 1, 1)))
@@ -192,7 +192,7 @@ end
 
 
 %% Calculate Jacobian and Hessian matrix of residual
-omegaSim = sqrt( simModes.Lambda );
+omegaSim = sqrt( simModes.lambda );
 omegaExp = sqrt( expModes.lambdaExp );
 
 n_meas = expModes.n_meas;
@@ -253,7 +253,7 @@ for i = 1 : n_modes
     ddPsi_mr = zeros(n_alpha, n_alpha, n_meas - 1);
     ddPsi_m = zeros(n_alpha, n_alpha, n_meas);
 
-    B = structModel.K - simModes.Lambda(i) * structModel.M0;
+    B = structModel.K - simModes.lambda(i) * structModel.M0;
     % The maximum entry of Psi_m is normalized to 1
     P_i = setdiff(1 : N, expModes.q(i));
     Q_i = P_i(1 : n_meas - 1);

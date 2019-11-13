@@ -41,7 +41,7 @@ function [jac] = JacMPDLsqnonlin(structModel, expModes, simModes, ...
 %
 %   simModes - a structure array with simulated modal properties for
 %     model updating:
-%       Lambda (n_modes x 1) - simulated eigenvalue
+%       lambda (n_modes x 1) - simulated eigenvalue
 %       psi_m  (n_meas x n_modes) - simulated mode shape vector at
 %          measured DOFs
 %       psi    (N x n_modes) - simulated mode shape vector at all DOFs
@@ -65,7 +65,7 @@ function [jac] = JacMPDLsqnonlin(structModel, expModes, simModes, ...
 n_alpha = length( structModel.K_j ) ;
 N = size( structModel.K0, 1 );
 
-omegaSim = sqrt( simModes.Lambda );
+omegaSim = sqrt( simModes.lambda );
 omegaExp = sqrt( expModes.lambdaExp );
 
 n_meas = expModes.n_meas;
@@ -118,7 +118,7 @@ end
 dPsi_m = zeros(n_meas, n_alpha, n_modes);
 for i = 1 : n_modes
     dPsi_dAlpha_j = zeros(N, 1);
-    B = sparse( structModel.K - simModes.Lambda(i) * structModel.M0 );
+    B = sparse( structModel.K - simModes.lambda(i) * structModel.M0 );
     
     if (normOpt == 1)
         % The maximum entry of Psi_m is normalized to 1

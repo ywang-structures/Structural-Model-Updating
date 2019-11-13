@@ -40,14 +40,14 @@ function jac = ModelUpdatingJacobian(x, structModel, expModes, ...
 %       measDOFs (n_meas x 1) - measured DOFs  
 %       lambdaWeights (n_modes x 1) - weighting factor for eigenvalue
 %       psiWeights (n_modes x 1) - weighting factor for eigenvector
-%       Lambda (n_modes x 1) - simulated eigenvalue
+%       lambda (n_modes x 1) - simulated eigenvalue
 %       psi_m  (n_meas x n_modes) - simulated mode shape vector at 
 %          measured DOFs
 %       psi  (N x n_modes) - simulated mode shape vector at all DOFs
 %
 %   simModes - a structure array with simulated modal properties for
 %     model updating:
-%       Lambda (n_modes x 1) - simulated eigenvalue
+%       lambda (n_modes x 1) - simulated eigenvalue
 %       psi_m  (n_meas x n_modes) - simulated mode shape vector at
 %          measured DOFs
 %       psi    (N x n_modes) - simulated mode shape vector at all DOFs
