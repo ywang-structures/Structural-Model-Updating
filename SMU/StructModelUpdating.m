@@ -276,7 +276,7 @@ for i = 1 : n_alpha
     structModel.K_j{i} = structModel.K_j{i}(orderIndex, orderIndex);
 end
 
-if( updatingOpts.formID < 2.3)
+if( updatingOpts.formID < 2.3 || updatingOpts.formID == 3.0)
     % Normalize mode shape vector so that the maximum entry magnitude = 1.
     % The entry index is denoted as q(i).
     for i = 1 : expModes.n_modes
