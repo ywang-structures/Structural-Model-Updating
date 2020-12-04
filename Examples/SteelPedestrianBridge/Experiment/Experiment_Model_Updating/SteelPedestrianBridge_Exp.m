@@ -46,15 +46,15 @@ num_unmeasDOFs = N - num_measDOFs;
 unmeasDOFs = setdiff(1 : N, measDOFs);
 
 
-if(updatingOpts.formID == 3)
-    
-    updatingOpts.x_lb = [-0.1 * ones(2, 1); -0.2 * ones(11,1);      -ones(4,1); -5 * ones(num_unmeasDOFs * n_modes,1)];
-    updatingOpts.x_ub = [ 0.1 * ones(2, 1);  0.4 * ones(11,1);  10 * ones(4,1);  5 * ones(num_unmeasDOFs * n_modes,1) ];
-    
-else
+if(updatingOpts.formID < 3)
     
     updatingOpts.x_lb = [-0.1 * ones(2, 1); -0.2 * ones(11,1);   -ones(4,1)];
     updatingOpts.x_ub = [ 0.1 * ones(2, 1);  0.4 * ones(11,1);  10 * ones(4,1) ];
+    
+else
+    
+    updatingOpts.x_lb = [-0.1 * ones(2, 1); -0.2 * ones(11,1);      -ones(4,1); -5 * ones(num_unmeasDOFs * n_modes,1)];
+    updatingOpts.x_ub = [ 0.1 * ones(2, 1);  0.4 * ones(11,1);  10 * ones(4,1);  5 * ones(num_unmeasDOFs * n_modes,1) ];
 end
 
 
