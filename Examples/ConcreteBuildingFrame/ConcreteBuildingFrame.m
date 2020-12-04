@@ -60,14 +60,13 @@ updatingOpts.formID = 3.0;       % 1: Modal property diff (MAC) ;
 updatingOpts.modeMatch = 2;      % 1: Without forced matching;
                                  % 2: With forced matching;
 updatingOpts.simModesForExpMatch = modeIndex;
-if(updatingOpts.formID == 3)
-    updatingOpts.x_lb = [-ones(n_alpha,1); -2 * ones(num_unmeasDOFs * n_modes,1)];
-    updatingOpts.x_ub =  [ones(n_alpha,1);2 * ones(num_unmeasDOFs * n_modes,1)];
-    
-else
-    
+if(updatingOpts.formID < 3)
     updatingOpts.x_lb = -ones(n_alpha,1);
     updatingOpts.x_ub =  ones(n_alpha,1);
+    
+else
+    updatingOpts.x_lb = [-ones(n_alpha,1); -2 * ones(num_unmeasDOFs * n_modes,1)];
+    updatingOpts.x_ub =  [ones(n_alpha,1);2 * ones(num_unmeasDOFs * n_modes,1)];
 end
 
 %% MultiStart optimization
