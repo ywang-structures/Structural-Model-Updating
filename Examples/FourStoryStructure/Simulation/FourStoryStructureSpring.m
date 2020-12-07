@@ -86,15 +86,15 @@ updatingOpts.formID = 3.0;       % 1: Modal property diff (MAC) ;
 updatingOpts.modeMatch = 2;      % 1: Without forced matching;
                                  % 2: With forced matching;
 updatingOpts.simModesForExpMatch = modeIndex;
-if(updatingOpts.formID > 2.0 && updatingOpts.formID < 4.0)
-    % Optimizaiton variable for modal dynamic residual formulation
-    updatingOpts.x_lb = [-ones(n_alpha,1);-3 * ones(num_unmeasDOFs * n_modes,1)];
-    updatingOpts.x_ub = [ones(n_alpha,1);  3 * ones(num_unmeasDOFs * n_modes,1)];
-    
-else
+if(updatingOpts.formID < 3.0)
     % Optimizaiton variable for modal property difference formulations
     updatingOpts.x_lb = -ones(n_alpha,1);
     updatingOpts.x_ub =  ones(n_alpha,1);
+    
+else
+    % Optimizaiton variable for modal dynamic residual formulation
+    updatingOpts.x_lb = [-ones(n_alpha,1);-3 * ones(num_unmeasDOFs * n_modes,1)];
+    updatingOpts.x_ub = [ones(n_alpha,1);  3 * ones(num_unmeasDOFs * n_modes,1)];    
 end
 
 %% Simulate "experimental data"
