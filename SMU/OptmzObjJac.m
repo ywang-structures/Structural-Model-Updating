@@ -172,9 +172,9 @@ end
 
 % fmincon use scalar as objective function output
 if(strcmp(optToolBox,'fmincon'))
-	if nargout > 1
-	    jac = 2 * jac' * r;
-	end
+    if nargout > 1
+    	jac = 2 * jac' * r;
+    end
     r = norm(r)^2;
 end
 
