@@ -1,4 +1,4 @@
-function [r, jac] = LsqnonlinObjJac(x, structModel, expModes, updatingOpts,optToolBox)
+function [r, jac] = OptmzObjJac(x, structModel, expModes, updatingOpts,optToolBox)
 
 % function [r, jac] = ModelUpdatingObjJac(x, structModel, expModes, updatingOpts,optToolBox)
 %
