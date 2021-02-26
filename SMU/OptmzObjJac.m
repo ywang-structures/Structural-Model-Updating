@@ -1,8 +1,8 @@
 function [r, jac] = OptmzObjJac(x, structModel, expModes, updatingOpts,optToolBox)
 
-% function [r, jac] = ModelUpdatingObjJac(x, structModel, expModes, updatingOpts,optToolBox)
+% function [r, jac] = OptmzObjJac(x, structModel, expModes, updatingOpts,optToolBox)
 %
-% function [r] = ModelUpdatingObjJac(x, structModel, expModes, updatingOpts,optToolBox)
+% function [r] = OptmzObjJac(x, structModel, expModes, updatingOpts,optToolBox)
 %
 %   (c) Yang Wang, Xinjun Dong, Dan Li (all rights reserved)
 %       School of Civil and Environmental Engineering
