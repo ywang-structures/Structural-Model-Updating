@@ -27,7 +27,7 @@ The folder contains example code and data for the updating of a four story shear
 X. Dong and Y. Wang (2020). ["Formulation and optimization algorithm comparison for the FE model updating of large-scale models."](https://github.com/ywang-structures/Structural-Model-Updating/blob/master/Formulation%20and%20Optimization%20Algorithm%20Comparison%20for%20the%20FE%20Model%20Updating%20of%20Large-Scale%20Models.pdf)
 
 ## Citing SMU
-Y. Wang, X. Dong, D. Li, and Y. Otsuki. SMU: MATLAB Package for Structural Model Updating, version 1.1. https://github.com/ywang-structures/Structural-Model-Updating, January 2019.
+Y. Wang, X. Dong, D. Li, and Y. Otsuki. SMU: MATLAB Package for Structural Model Updating, version 1.2. https://github.com/ywang-structures/Structural-Model-Updating, September 2019.
 
 ## Acknowledgment
 This research was partially funded by the National Science Foundation (CMMI-1150700 and CMMI-1634483). Any opinions, findings, and conclusions expressed in this publication are those of the authors and do not necessarily reflect the view of the sponsors.
