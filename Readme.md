@@ -35,7 +35,7 @@ This research was partially funded by the National Science Foundation (CMMI-1150
 ## Contact
 
 Yang Wang, Ph.D.\
-Associate Professor\
+Professor\
 School of Civil and Environmental Engineering &\
 School of Electrical and Computer Engineering\
 Georgia Institute of Technology\
