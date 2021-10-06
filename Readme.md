@@ -23,6 +23,9 @@ The folder contains example code and data for the updating of a steel pedestrian
 "Examples\FourStoryStructure\"
 The folder contains example code and data for the updating of a four story shear structure model.
 
+"Examples\EighteenStoryStructure\"
+The folder contains example code and data for the updating of a eighteen story shear structure model.
+
 ## Companion Monograph
 Y. Otsuki, P. Lander, X. Dong, Y. Wang. (2021). ["Formulation and application of SMU - an open-source MATLAB package for structural model updating."](https://github.com/ywang-structures/Structural-Model-Updating/blob/master/Formulation%20and%20application%20of%20SMU%20%E2%80%93%20an%20open-source%20MATLAB%20package%20for%20structural%20model%20updating.pdf) Advances in Structural Engineering. (accepted)
 
