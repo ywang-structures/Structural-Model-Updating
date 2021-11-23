@@ -11,12 +11,16 @@ function [r, jac] = OptmzObjJac(x, structModel, expModes, updatingOpts,optToolBo
 %
 % Revision: 1.1
 %
-% For implementation with different optimization algorithm, this function 
-% calculates the objective residual vector r(x) and returns as the first 
-% argument. When the function is called with two  output arguments:
-%   [r, jac] = ModelUpdatingObjJac(alpha, structModel, expModes, updatingOpts)
-% The function evaluates the user-provided analytical Jacobian matrix
-% (d_r/d_x), and returns in the second argument.
+% For implementation with different optimization algorithms and solvers,
+% this function first calculates the objective residual vector r(x) by:
+% [r] = ModelUpdatingObjective(x, structModel, expModes, simModes, updatingOpts);
+% When this function is called with two output arguments, the analytical
+% Jacobian matrix (jac = d_r/d_x) is calculated by:
+% [jac] = ModelUpdatingJacobian(alpha, structModel, expModes, updatingOpts)
+%
+% If a user selected the "lsqnonlin" solver by default, r and jac obtained above are
+% returned directly. Otherwise, if a user selected the "fmincon" solver, r and jac
+% obtained above are modified to their approripate forms and returned
 %
 % Input:
 %   x - a vector with values of the optimization variables
