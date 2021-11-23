@@ -3,28 +3,28 @@
 **Table of Contents**
 
 # StructModelUpdating.m
-This function performs one run of the finite element model updating usingmfrequency domain modal properties. The starting point for this run can be provided as optimzOpts.x0.
+This function performs one run of the finite element model updating using frequency domain modal properties. The starting point for this run can be provided as optimzOpts.x0.
 ## Syntax
-function updtResults = StructModelUpdating (structModel, expModes)
-function updtResults = StructModelUpdating (structModel, expModes, updatingOpts)
-function updtResults = StructModelUpdating (structModel, expModes, [], optimzOpts)
+function updtResults = StructModelUpdating (structModel, expModes) <br/>
+function updtResults = StructModelUpdating (structModel, expModes, updatingOpts) <br/>
+function updtResults = StructModelUpdating (structModel, expModes, [], optimzOpts) <br/>
 function updtResults = StructModelUpdating (structModel, expModes, updatingOpts, optimzOpts)
 ## Description
 ### Input Arguments
-#### structModel - a MATLAB structure array with following fields of structural model information:
+#### structModel - a MATLAB structure array with the following fields of structural model information:
 |Field Name |Dimension         |Description                    |
 |:----------|:---------------  |:------------------------------|
 |M0         |N x N             |mass matrix (assumed accurate enough and no need to update in current revision). Here N refers to the number of degrees of freedom of the finite element model |
 |K0         |N x N             |nominal stiffness matrix constructed with nominal parameter values |
-|K_j        |{N x N x n_alpha} |influence matrix corresponding to updating variables (Note: the third dimension of K_j should be equal to the number of updating variables). Here n_alpha refers the number of stiffness updating variables. <br><br> Example procedure to construct K_j matrices: <br> 1) Build the model using nominal stiffness values, and export the stiffness matrix of this nominal/original FEM model (K0 in the monograph). <br> 2) For a corresponding alpha_j, multiply the Young modulus of these members by two times in the software.  Then export the stiffness matrix of this changed FEM model. <br> 3) Subtract the stiffness matrix from 2) by the K0 from 1).  Their difference will be K_j(:,:,j), i.e. influence matrix corresponding to alpha_j.|
+|K_j        |{N x N x n_alpha} |influence matrix corresponding to updating variables (Note: the third dimension of K_j should be equal to the number of updating variables). Here n_alpha refers the number of stiffness updating variables. <br><br> Example procedure to construct K_j matrices: <br> 1) Build the model using nominal stiffness values, and export the stiffness matrix of this nominal/original FEM model (K0 in the monograph). <br> 2) For a corresponding alpha_j, multiply the Young modulus of these members by two times in the software.  Then export the stiffness matrix of this changed FEM model. <br> 3) Subtract K0 (from step 1) from the resulting stiffness matrix from step 2. Their difference will be K_j(:,:,j), i.e. influence matrix corresponding to alpha_j.|
 #### expModes - a MATLAB structure array with experimental modal properties for model updating:
 |Field Name    |Dimension        |Description                    |
 |:-------------|:----------------|:------------------------------|
-|lambdaExp     |n_modes x 1      |experimental eigenvalue. Here n_modes refers to the number of experimental modes available |
-|psiExp        |n_meas x n_modes |experimental mode shape vector at measured DOFs. Here n_meas refers to the number of measured DOFs |
+|lambdaExp     |n_modes x 1      |experimental eigenvalues. Here n_modes refers to the number of experimental modes available |
+|psiExp        |n_meas x n_modes |experimental mode shape vectors at measured DOFs. Here n_meas refers to the number of measured DOFs |
 |measDOFs      |n_meas x 1       |measured DOFs |
-|lambdaWeights |n_modes x 1      |weighting factor for eigenvalue |
-|psiWeights    |n_modes x 1      |weighting factor for eigenvector |
+|lambdaWeights |n_modes x 1      |weighting factors for eigenvalues |
+|psiWeights    |n_modes x 1      |weighting factors for eigenvectors |
 #### updatingOpts - a MATLAB structure array with model updating options:
 <table>
   <tr>
@@ -36,18 +36,18 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
     <td>
     	formulation ID number (default: 1) <br>
       Case 1 - conventional modal property difference formulation using MAC values <br>
-            &emsp;1.0: eigenvalue difference, normalize eigenvecotr maximum entry equal to 1 <br>
-            &emsp;1.1: angular frequency difference (rad/s), normalize eigenvecotr qi-th entry equal to 1 <br>
-            &emsp;1.2: ordinary frequency differnce (Hz), normalize eigenvecotr qi-th entry equal to 1 <br>
+            &emsp;1.0: eigenvalue difference, normalize eigenvector maximum entry equal to 1 <br>
+            &emsp;1.1: angular frequency difference (rad/s), normalize eigenvector q_i-th entry equal to 1 <br>
+            &emsp;1.2: ordinary frequency differnce (Hz), normalize eigenvector q_i-th entry equal to 1 <br>
       Case 2 - modal property difference formulation with eigenvector difference formulation <br>
-            &emsp;2.0: eigenvalue difference, normalize eigenvecotr maximum entry equal to 1 <br>
-            &emsp;2.1: angular frequency difference (rad/s), normalize eigenvecotr qi-th entry equal to 1 <br>
-            &emsp;2.2: ordinary frequency differnce (Hz), normalize eigenvecotr qi-th entry equal to 1 <br>
-            &emsp;2.3: eigenvalue difference, normalize eigenvecotr norm equal to 1 <br>
-            &emsp;2.4: angular frequency difference (rad/s), normalize eigenvecotr norm equal to 1 <br>
-            &emsp;2.5: ordinary frequency differnce (Hz), normalize eigenvecotr norm equal to 1 <br>
+            &emsp;2.0: eigenvalue difference, normalize eigenvector maximum entry equal to 1 <br>
+            &emsp;2.1: angular frequency difference (rad/s), normalize eigenvector q_i-th entry equal to 1 <br>
+            &emsp;2.2: ordinary frequency differnce (Hz), normalize eigenvector q_i-th entry equal to 1 <br>
+            &emsp;2.3: eigenvalue difference, normalize eigenvector norm equal to 1 <br>
+            &emsp;2.4: angular frequency difference (rad/s), normalize eigenvector norm equal to 1 <br>
+            &emsp;2.5: ordinary frequency difference (Hz), normalize eigenvector norm equal to 1 <br>
       Case 3 - modal dynamic residual formulation <br>
-            &emsp;3.0: eigenvalue, normalize eigenvecotr maximum entry equal to 1 <br>
+            &emsp;3.0: eigenvalue, normalize eigenvector maximum entry equal to 1 <br>
     </td>
   </tr>
   <tr>
@@ -62,16 +62,16 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
   	<td>simModesForExpMatch</td>
     <td>
     	designate simulated modes obtained from FE model for matching with experimental modes <br>
-        - If modeMatch = 1, Set simModesForExpMatch as an integer representing the number of simulated modes that will be compared with experimental modes for similarity matching by MAC value. The matched pair will be used for evaluating objective function value. (default: min(n_modes x 2, N)) <br>
-        - If modeMatch = 2, Set simModesForExpMatch as a (n_modes x 1) array.  For evaluating the objective function, the first experimental mode will be matched with simModesForExpMatch(1)-th simulated mode; the second experimental mode will be matched with simModesForExpMatch(2)-th mode, etc. <br>
+        - If modeMatch = 1, Set simModesForExpMatch as an integer representing the number of simulated modes that will be compared with experimental modes for similarity matching by MAC value. The matched pair will be used for evaluating the objective function value. (default: min(n_modes x 2, N)) <br>
+        - If modeMatch = 2, Set simModesForExpMatch as a (n_modes x 1) array.  For evaluating the objective function, the first experimental mode will be matched with the simModesForExpMatch(1)-th simulated mode; the second experimental mode will be matched with the simModesForExpMatch(2)-th mode, etc. <br>
     </td>
   </tr>
   <tr>
   	<td>x_ub</td>
     <td>
     	upper bounds of updating variables <br>
-        - formID < 3 : n_alpha x 1 (default: []) <br>
-        - formID = 3 : (n_alpha + n_unmeas x n_modes) x 1 (default: []) <br>
+        - formID < 3 : n_alpha x 1 (default: [ ]) <br>
+        - formID = 3 : (n_alpha + n_unmeas x n_modes) x 1 (default: [ ]) <br>
         Here n_unmeas refers to the number of unmeasured DOFs <br>
     </td>
   </tr>
@@ -79,13 +79,13 @@ function updtResults = StructModelUpdating (structModel, expModes, updatingOpts,
   	<td>x_ub</td>
     <td>
     	lower bounds of updating variables <br>
-        - formID < 3 : n_alpha x 1 (default: []) <br>
-        - formID = 3 : (n_alpha + n_unmeas x n_modes) x 1 (default: []) <br>
+        - formID < 3 : n_alpha x 1 (default: [ ]) <br>
+        - formID = 3 : (n_alpha + n_unmeas x n_modes) x 1 (default: [ ]) <br>
     </td>
   </tr>
 </table>
 
-WARNING: (1) When using Levenberg-Marquardt optimization algorithm in MATLAB, setting the upper and lower bounds of updating variables has no effect because the MATLAB L-M implementation does not accept bounds. The optimization may provide an infeasible out-of-the-bound solution. The user needs to verify the feasibility of the solution. (2) When using fmincon tool box with interior point method to solve modal dynamic residual formulation, the optimization process becomes quite slow when the number of unmeasured DOFs is large. In this scenario, it is recommended to use lsqnonlin tool box.
+WARNING: (1) When using the Levenberg-Marquardt optimization algorithm in MATLAB, setting the upper and lower bounds of updating variables has no effect because the MATLAB L-M implementation does not accept bounds. The optimization may provide an infeasible out-of-the-bound solution. The user needs to verify the feasibility of the solution. (2) When using the fmincon tool box with the interior point method to solve modal dynamic residual formulation, the optimization process becomes quite slow when the number of unmeasured DOFs is large. In this scenario, it is recommended to use the lsqnonlin tool box.
 #### optimzOpts - optimization options. The current revision supports MATLAB lsqnonlin function.
 <table>
   <tr>
@@ -163,27 +163,27 @@ r = ModelUpdatingObjective(alpha, structModel, expModes, simModes, updatingOpts)
 ## Description
 ### Input Arguments
 #### x - a vector with values of the optimization variables
-#### structModel - a MATLAB structure array with following fields of structural model information:
+#### structModel - a MATLAB structure array with the following fields of structural model information:
 |Field Name    |Dimension          |Description                    |
 | ------------ | ---------------   | ------------------------------|
 |M0            |N x N              |mass matrix (assumed accurate enough and no need to update in current revision). Here N refers to the number of degrees of freedom of the finite element model|
 |K0            |N x N              |nominal stiffness matrix constructed with nominal parameter values|
-|K_j           |{N x N x n_alpha}  |influence matrix corresponding to updating variables (Note: the third dimension of K_j should be equal to the number of updating variables). Here n_alpha refers the number of stiffness updating variables. <br><br> Example procedure to construct K_j matrices: <br> 1) Build the model using nominal stiffness values, and export the stiffness matrix of this nominal/original FEM model (K0 in the monograph). <br> 2) For a corresponding alpha_j, multiply the Young modulus of these members by two times in the software.  Then export the stiffness matrix of this changed FEM model. <br> 3) Subtract the stiffness matrix from 2) by the K0 from 1).  Their difference will be K_j(:,:,j), i.e. influence matrix corresponding to alpha_j.|
+|K_j           |{N x N x n_alpha}  |influence matrix corresponding to updating variables (Note: the third dimension of K_j should be equal to the number of updating variables). Here n_alpha refers the number of stiffness updating variables. <br><br> Example procedure to construct K_j matrices: <br> 1) Build the model using nominal stiffness values, and export the stiffness matrix of this nominal/original FEM model (K0 in the monograph). <br> 2) For a corresponding alpha_j, multiply the Young modulus of these members by two times in the software.  Then export the stiffness matrix of this changed FEM model. <br> 3) Subtract K0 (from step 1) from the resulting stiffness matrix from step 2. Their difference will be K_j(:,:,j), i.e. influence matrix corresponding to alpha_j.|
 |K             |N x N              |stiffness matrix constructed with the current alpha values, using K0 and K_j|
 #### expModes - a MATLAB structure array with experimental modal properties for model updating:
 |Field Name    |Dimension        |Description                    |
 | ------------ | --------------- | ------------------------------|
-|lambdaExp     |n_modes x 1      |experimental eigenvalue. Here n_modes refers to the number of experimental modes available|
-|psiExp        |n_meas x n_modes |experimental mode shape vector at measured DOFs. Here n_meas refers to the number of measured DOFs|
+|lambdaExp     |n_modes x 1      |experimental eigenvalues. Here n_modes refers to the number of experimental modes available|
+|psiExp        |n_meas x n_modes |experimental mode shape vectors at measured DOFs. Here n_meas refers to the number of measured DOFs|
 |measDOFs      |n_meas x 1       |measured DOFs|
-|lambdaWeights |n_modes x 1      |weighting factor for eigenvalue|
-|psiWeights    |n_modes x 1      |weighting factor for eigenvector|
+|lambdaWeights |n_modes x 1      |weighting factors for eigenvalues|
+|psiWeights    |n_modes x 1      |weighting factors for eigenvectors|
 #### simModes - a MATLAB structure array with simulated modal properties for model updating:
 |Field Name |Dimension        | Description                    |
 | ----------|---------------- | ------------------------------ |
-|lambda     |n_modes x 1      |simulated eigenvalue|
-|psi_m      |n_meas x n_modes |simulated mode shape vector at measured DOFs|
-|psi        |N x n_modes      |simulated mode shape vector at all DOFs|
+|lambda     |n_modes x 1      |simulated eigenvalues|
+|psi_m      |n_meas x n_modes |simulated mode shape vectors at measured DOFs|
+|psi        |N x n_modes      |simulated mode shape vectors at all DOFs|
 #### updatingOpts - a MATLAB structure array with model updating options:
 |Field Name    |Description                    |
 | ------------ | ------------------------------|
