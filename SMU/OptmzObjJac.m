@@ -16,7 +16,7 @@ function [r, jac] = OptmzObjJac(x, structModel, expModes, updatingOpts,optToolBo
 % [r] = ModelUpdatingObjective(x, structModel, expModes, simModes, updatingOpts);
 % When this function is called with two output arguments, the analytical
 % Jacobian matrix (jac = d_r/d_x) is calculated by:
-% [jac] = ModelUpdatingJacobian(alpha, structModel, expModes, updatingOpts)
+% [jac] = ModelUpdatingJacobian(x, structModel, expModes, simModes, updatingOpts)
 %
 % If a user selected the "lsqnonlin" solver by default, r and jac obtained above are
 % returned directly. Otherwise, if a user selected the "fmincon" solver, r and jac
