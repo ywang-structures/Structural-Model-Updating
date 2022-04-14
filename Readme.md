@@ -27,7 +27,7 @@ The folder contains example code and data for the updating of a four story shear
 The folder contains example code and data for the updating of a eighteen story shear structure model.
 
 ## Companion Monograph
-Y. Otsuki, P. Lander, X. Dong, Y. Wang. (2021). ["Formulation and application of SMU - an open-source MATLAB package for structural model updating."](https://github.com/ywang-structures/Structural-Model-Updating/blob/master/Formulation%20and%20application%20of%20SMU%20%E2%80%93%20an%20open-source%20MATLAB%20package%20for%20structural%20model%20updating.pdf) Advances in Structural Engineering. (accepted)
+Y. Otsuki, P. Lander, X. Dong, Y. Wang. (2021). ["Formulation and application of SMU - an open-source MATLAB package for structural model updating."](https://github.com/ywang-structures/Structural-Model-Updating/blob/master/Formulation%20and%20application%20of%20SMU%20%E2%80%93%20an%20open-source%20MATLAB%20package%20for%20structural%20model%20updating.pdf) Advances in Structural Engineering, 25(4): 698-715.
 
 ## Citing SMU
 Y. Wang, X. Dong, D. Li, and Y. Otsuki. SMU: MATLAB Package for Structural Model Updating, version 1.2. https://github.com/ywang-structures/Structural-Model-Updating, September 2019.
