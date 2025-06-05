@@ -6,8 +6,8 @@ The concrete building frame example is a full-scale test structure in the Struct
 
 "ConcreteBuildingFrame.m" 
 * This is the main function to perform FE model updating of concrete building frame from multiple starting points;
-* Before running the code, please add "_Shared" folder at the upper level into MATLAB path. 
-* The code first loads the data for updating the frame model by calling "LoadStructure.m". Then the code calls the functions in the "_Shared" folder to perform FE model updating.
+* Before running the code, please add "SMU" folder at the upper level into MATLAB path. 
+* The code first loads the data for updating the frame model by calling "LoadStructure.m". Then the code calls the functions in the "SMU" folder to perform FE model updating.
 
 
 "LoadStructure.m"
