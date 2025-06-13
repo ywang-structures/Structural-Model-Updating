@@ -1,14 +1,14 @@
 function [jac] = JacMPDLsqnonlin(structModel, expModes, simModes, ...
     eigFreqOpt, normOpt, objOpt)
 % function [jac] = JacMPDLsqnonlin(structModel, expModes, simModes, ...
-%     eigFreqOpt, normOpt, objOpt) 
+%     eigFreqOpt, normOpt, objOpt)
 %
-%   Yang Wang, Xinjun Dong, Dan Li, Yu Otsuki
+%   Yang Wang, Xinjun Dong, Dan Li, Yu Otsuki, Zhengbo Wang
 %   School of Civil and Environmental Engineering
 %   Georgia Institute of Technology
 %   2018
 %
-% Revision: 1.1
+% Revision: 1.2.1
 %
 % For implementation with MATLAB lsqnonlin, this function calculates
 % the Jacobian matrix for various forms of the modal property
@@ -75,11 +75,11 @@ for i = 1 : n_modes
     if (normOpt == 1)
         simModes.psi_m(:,i) = simModes.psi_m(:,i) / simModes.psi_m(expModes.q(i), i);
         simModes.psi(:,i) = simModes.psi(:,i) / simModes.psi(expModes.q(i), i);
-        
+
     elseif (normOpt == 2)
         simModes.psi_m(:,i) = simModes.psi_m(:,i) / norm( simModes.psi(:, i) );
         simModes.psi(:,i) = simModes.psi(:,i) / norm( simModes.psi(:, i) );
-        
+
     else
         error('\nWrong nomalization option (normOpt) input for JacMPDLsqnonlin.');
     end
@@ -119,7 +119,7 @@ dPsi_m = zeros(n_meas, n_alpha, n_modes);
 for i = 1 : n_modes
     dPsi_dAlpha_j = zeros(N, 1);
     B = sparse( structModel.K - simModes.lambda(i) * structModel.M0 );
-    
+
     if (normOpt == 1)
         % The maximum entry of Psi_m is normalized to 1
         P_i = setdiff(1 : N, expModes.q(i));
@@ -136,13 +136,29 @@ for i = 1 : n_modes
             % LU factorization
             [L,U,pp,qq,dgsB] = lu(B);
         end
-        
+
         for j = 1 : n_alpha
             b = dLambda(i,j) * structModel.M0 * simModes.psi(:, i) -...
                 structModel.K_j{j} * simModes.psi(:, i);
             b = sparse(b(P_i));
+            wid = 'MATLAB:nearlySingularMatrix';
+            warning('error', wid);
             if (MAT_version >= 2017)
-                dPsi_dAlpha_j(P_i) = dcompB \ b;
+                try
+                    dPsi_dAlpha_j(P_i) = dcompB \ b;
+                catch ME
+                    if strcmp(ME.identifier, wid)
+                        [L,U,pp,qq,dgsB] = lu(B);
+                        if ~isempty(dgsB)
+                            % use LU reordering
+                            dPsi_dAlpha_j(P_i) = qq*(U \ (L \ (pp*(dgsB\b))));
+                        else
+                            dPsi_dAlpha_j(P_i) = U \ (L \ b(pp));
+                        end
+                    else
+                        rethrow(ME)
+                    end
+                end
             else
                 if ~isempty(dgsB)
                     % use LU reordering
@@ -154,7 +170,7 @@ for i = 1 : n_modes
             % The q_i-th entry of dPsi_m remains as 0 from initialization
             dPsi_m(Q_i, j, i) = dPsi_dAlpha_j(Q_i);
         end
-        
+
     else
         % Length of Psi is normalized to 1.
         [~, index] = max(abs( simModes.psi(:,i) ));
@@ -166,19 +182,35 @@ for i = 1 : n_modes
         MAT_version = str2num( vers_temp(1 : 4) );
         if (MAT_version >= 2017)
             % factorization
-            dcompB = decomposition(B); 
+            dcompB = decomposition(B);
         else
             % LU factorization
             [L,U, pp, qq, dgsB] = lu(B);
         end
-        
+
         for j = 1 : n_alpha
             b = dLambda(i,j) * structModel.M0 * simModes.psi(:, i) -...
                 structModel.K_j{j} * simModes.psi(:, i);
             b(index) = 0;
             b = sparse(b);
+            wid = 'MATLAB:nearlySingularMatrix';
+            warning('error', wid);
             if (MAT_version >= 2017)
-                v = dcompB \ b;
+                try
+                    v = dcompB \ b;
+                catch ME
+                    if strcmp(ME.identifier, wid)
+                        [L,U,pp,qq,dgsB] = lu(B);
+                        if ~isempty(dgsB)
+                            % use LU reordering
+                            v = qq*(U \ (L \ (pp*(dgsB\b))));
+                        else
+                            v = U \ (L \ b(pp));
+                        end
+                    else
+                        rethrow(ME)
+                    end
+                end
             else
                 if ~isempty(dgsB)
                     % use LU reordering
@@ -196,7 +228,7 @@ for i = 1 : n_modes
     end
 end
 
-if (objOpt == 1) 
+if (objOpt == 1)
     jac = zeros(2 * n_modes, n_alpha);
 else
     if(normOpt == 1)
@@ -209,7 +241,7 @@ end
 for i = 1 : n_modes
     psiExp = expModes.psiExp(:,i);
     psiSim = simModes.psi_m(:,i);
-    
+
     if (objOpt == 1)
         % For the MAC value formulation, d_ri_MAC is the second part of
         % d_r_i/d_alpha that involves MAC value:
