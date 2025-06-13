@@ -6,7 +6,7 @@ function [jac] = JacMPDLsqnonlin(structModel, expModes, simModes, ...
 %   Yang Wang, Xinjun Dong, Dan Li, Yu Otsuki, Zhengbo Wang
 %   School of Civil and Environmental Engineering
 %   Georgia Institute of Technology
-%   2018
+%   2025
 %
 % Revision: 1.2.1
 %
