@@ -159,10 +159,10 @@ WARNING: (1) When using the Levenberg-Marquardt optimization algorithm in MATLAB
 # ModelUpdatingObjective.m
 This function calculates the objective residuals of the optimization problem for model updating. When MATLAB lsqnonlin solver is used, the output contains a vector (r) whose entries are the residuals.
 ## Syntax
-r = ModelUpdatingObjective(alpha, structModel, expModes, simModes, updatingOpts)
+r = ModelUpdatingObjective(x, structModel, expModes, simModes, updatingOpts)
 ## Description
 ### Input Arguments
-#### x - a vector with values of the optimization variables
+#### x - a vector with values of the optimization variables. They may include the stiffness updating variables, as well as simulated modal properties, depending on the formulation.
 #### structModel - a MATLAB structure array with the following fields of structural model information:
 |Field Name    |Dimension          |Description                    |
 | ------------ | ---------------   | ------------------------------|
